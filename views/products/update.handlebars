@@ -1,0 +1,680 @@
+<div class="container-fluid">
+    <div id="PRODUCT1"></div>
+    <div class="box">
+        <button class="collapsible">
+            <li class="fa fa-info panel-icon" style="padding: 5px"></li><span>PRODUCT INFO</span><span
+                style="float:right" id="sp">+</span>
+        </button>
+        <div class="content" style="background-color: white; border-top: 1px; display:block">
+            <div class="register-logo">
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
+                        <div class="well">
+                            <form action="" id="update_product">
+                                <input type="hidden" class="form-control inp" name="serial" id="serial">
+                                <input type="hidden" class="form-control inp" name="_id" id="_id"
+                                    value="{{product._id}}">
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="products_invoice">Product Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="products_invoice"
+                                            id="products_invoice" value="{{product.productName}}">
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="model">Model
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="model" id="model"
+                                            value="{{product.model}}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="name">Title
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="name" id="name"
+                                            value="{{product.name}}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="warranty">Warranty</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="warranty" id="warranty"
+                                            value="{{product.warranty}}">
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="description">Description</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <textarea type="text" class="form-control inp" name="description"
+                                            id="description">{{product.description}}</textarea>
+                                    </div>
+                                </div>
+                                <br>
+
+                              
+
+                                <div class="row">
+                                    <center>
+                                        <button class="btn btn-primary btn-md" type="submit">Update Info</button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#update_product').validate({ // initialize the plugin
+                    rules: {
+                        name: {
+                            required: true,
+                            maxlength: 50
+                            
+                        },
+                         warranty: {
+                            required: false,
+                            maxlength: 7
+                            
+                        }
+                    },
+                    submitHandler: function (form) {
+                        alert('valid form submitted');
+                        return false;
+                    }
+                });
+            });
+        </script>
+    </div>
+    {{!-- PRICE --}}
+    <div class="box">
+        <div id="PRICE"></div>
+        <button class="collapsible"><span style="float:left ">
+                <li class="fa fa-cog panel-icon"></li>
+                </li>PRICE
+            </span><span style="float:right" id="sp">+</span></button>
+        <div class="content" style="background-color: white; display:block">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
+                        <div class="well">
+                            <form action="/products/price/save" id="price_update" method="POST">
+                                <div class="row">
+                                    <input type="hidden" name="pid" id="pid" value="{{ product._id }}">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="sellingPrice">Selling Price
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="sellingPrice"
+                                            id="sellingPrice" value="{{product.sellingPrice}}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="discount">Discount:
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="discount" id="discount" class="form-control inp">
+                                            <option value=''>Select One</option>
+                                            {{# each discount}}
+                                            <option value="{{this._id}}"
+                                                {{# equality this._id ../product.discount }}selected{{/equality}}>
+                                                {{this.name}}:{{# if this.usePercentage}}{{this.discountPercent}}%{{else}}{{this.discountAmount}}TK{{/if}}Off
+                                            </option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <center>
+                                        <button class="btn btn-primary btn-md" type="submit">Update Price</button>
+                                    </center>
+                                </div><br>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#price_update').validate({ // initialize the plugin
+                    rules: {
+                        sellingPrice: {
+                            digits: true,
+                            required: true,
+                            maxlength: 7,
+                            min: 1
+                        },
+                        discount: {
+                            required: false
+                        }
+                    },
+                    submitHandler: function (form) {
+                       
+                        return true;
+                    }
+                });
+            });
+        </script>
+    </div>
+    {{!-- SPECIFICATIONS --}}
+    <div class="box">
+        <div id="SPECIFICATIONS1"></div>
+        <button class="collapsible"><span style="float:left ">
+                <li class="fa fa-cog panel-icon"></li>
+                </li>SPECIFICATIONS
+            </span><span style="float:right" id="sp">+</span></button>
+        <div class="content" style="background-color: white; display:block">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
+                        <div class="well">
+                            {{# if ram}}
+
+                            <div class="row">
+                                <center>
+                                    <div class="col-md-12  ">
+                                        <span style="color: red">You have to add value for min bus speed, max bus speed
+                                        </span>
+                                    </div>
+                                </center>
+                            </div> <br>
+                            {{/if}}
+                            {{# if motherboard}}
+                            <div class="row">
+                                <center>
+                                    <div class="col-md-12">
+                                        <span style="color: red">you have toadd value for Max RAM size, Ram Slot,
+                                            Graphics Support, PCI Bus</span>
+                                    </div>
+                                </center>
+                            </div> <br>
+
+                            {{/if}}
+
+                            <form action="/products/attribute/save" id="specification_update" method="POST">
+                                <input type="hidden" name="pid" id="pid" value="{{ product._id }}">
+                                {{!-- <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="pid">Product Name
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <input type="text" class="form-control inp" name="pname" id="pname"
+                                            value="{{ product.productName }}">
+                                        
+                                    </div>
+                                </div>
+                                <br> --}}
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="label">Product Specification
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-control inp" name="label" id="label" required>
+                                            <option value=''>Select One</option>
+                                            {{# each specifications }}
+                                            <option value="{{this._id}}">{{this.name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col-md-1">
+                                        <a class="btn btn-success inp"
+                                            href="/products/specifications/new/{{product._id}}">New</a>
+                                    </div>
+
+                                    {{!-- <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="label" id="label" required>
+                                    </div> --}}
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="value">Value
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="value" id="value" required>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <center>
+                                        <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                                    </center>
+                                </div>
+                            </form><br>
+                            <hr>
+                            <table id="ptable1" style="width:100%" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Attributes</th>
+                                        <th>Values</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{# each product.features}}
+                                    <tr>
+                                        <td>
+                                            <strong>{{this.label.name}}</strong>
+                                        </td>
+                                        <td>{{this.value}}</td>
+                                        <td>
+                                            <a href="/products/attributes/delete1/{{../product._id}}/{{this.label._id}}"
+                                                class="btn btn-danger btn-sm " style="margin: 0%">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{!-- iMG --}}
+    <div class="box">
+        <div id="IMAGES1"></div>
+        <button class="collapsible">
+            <li class="fa fa-picture-o panel-icon" style="padding: 5px"></li><span>IMAGES</span><span
+                style="float:right" id="sp">+</span>
+        </button>
+        <div class="content" style="background-color: white; display:block">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
+                        <a name="image_sec1"></a>
+                        <div class="well">
+                            <div id="all_img" class="row">
+                            </div>
+
+                            <div class="row">
+                                {{# each product.image}}
+                                {{# if this}}
+                                <div class="col-sm-3">
+                                    <img src="{{this}}" alt=""
+                                        style="background-image: image(); width:100px; height:100px;">
+                                    <form action="/products/img/detete" method="POST">
+                                        <input type="hidden" name="id" id="id" value="{{../product._id}}">
+                                        <input type="hidden" name="img" id="img" value="{{this}}">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                                {{/if}}
+                                {{/each}}
+                            </div>
+                            <div class="row">
+
+                            </div>
+                            <hr>
+                            <br>
+                            <form action="/products/upload/update" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="img_number" id="img_number">
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="pid">Product Name
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="pname" id="pname"
+                                            value="{{product.productName}}" disabled>
+                                        <input type="hidden" name="pid" id="pid" value="{{product._id}}">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="imagePath3">Select Image
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="file" name="imagePath3" id="imagePath3"
+                                            accept="image/png, image/jpeg" multiple>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <center>
+                                        <button type="submit" id="save_img"
+                                            class="btn btn-primary btn-md">Submit</button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {{!-- PRODUCT TAG --}}
+    <div class="box">
+        <div id="ProductTag1"></div>
+        <button class="collapsible"><span style="float:left ">
+                <i class="fa fa-tag" aria-hidden="true"></i>
+                </li>PRODUCT TAG
+            </span><span style="float:right" id="sp">+</span></button>
+        <div class="content" style="background-color: white; display:block">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
+                        <div class="well">
+
+                            {{# if product }}
+                            <form action="/products/HomePageTag/save" method="POST">
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="HomePagetag">HomePagetag<span
+                                                style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="hidden" name="pid" id="pid" value="{{ product._id }}">
+                                        <select class="form-control inp" name="HomePagetag" id="HomePagetag">
+                                            <option value="None"
+                                                {{# equality product.HomePagetag 'None'}}selected{{/equality}}>None
+                                            </option>
+                                            <option value="Hot Deals"
+                                                {{# equality product.HomePagetag 'Hot Deals'}}selected{{/equality}}>
+                                                Hot Deals
+                                            </option>
+                                            <option value="Trending"
+                                                {{# equality product.HomePagetag 'Trending'}}selected{{/equality}}>
+                                                Trending</option>
+                                            <option value="New Product"
+                                                {{# equality product.HomePagetag 'New Product'}}selected{{/equality}}>
+                                                New Product
+                                            </option>
+                                            <option value="Exclusive Products"
+                                                {{# equality product.HomePagetag 'Exclusive Products'}}selected{{/equality}}>
+                                                Exclusive Products</option>
+                                        </select>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <center>
+                                        <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                                    </center>
+                                </div>
+                            </form><br>
+                            {{else}}
+                            <p>You need to complete product registration with image in specification section.
+                            </p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{!-- RELATED PRODUCT --}}
+    <div class="box">
+        <div id="RELATED1"></div>
+        <button class="collapsible">
+            <li class="fa fa-object-group panel-icon" style="padding: 5px"></li><span>RELATED PRODUCT</span><span
+                style="float:right" id="sp">+</span>
+        </button>
+        <div class="content" style="background-color: white; display:block">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
+                        <div class="well">
+                            {{# if product }}
+                            <form action="/products/relatedProducts1" method="POST">
+                                <input type="hidden" name="img_number" id="img_number">
+                                <input type="hidden" name="pid" id="pid" value="{{ product._id }}">
+                                {{!-- <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="pid">Product Name
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <input type="text" class="form-control inp" name="pname" id="pname"
+                                            value="{{product.productName}}">
+                                       
+                                    </div>
+                                </div>
+                                <br> --}}
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="imagePath">Select Product
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="relatedProducts" class="form-control inp" id="relatedProducts"
+                                            required>
+                                            <option value="">Select One</option>
+                                            {{# each Product}}
+                                            <option value="{{this._id}}">{{this.productName}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <center>
+                                        <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                                    </center>
+                                </div>
+                            </form><br>
+                            <hr>
+                            <table id="ptable" style="width:100%" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{# each product.relatedProducts}}
+
+                                    <tr>
+
+                                        <td>
+                                            <strong>{{this.productName}}</strong>
+                                        </td>
+
+                                        <td>
+                                            <a href="/products/relatedProducts/delete1/{{../product._id}}/{{this._id}}"
+                                                class="btn btn-danger btn-sm">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            {{else}}
+                            <p>You need to complete product registration with image in specification section.
+                            </p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{!-- SHIPPING --}}
+    <div class="box">
+        <div id="Shipping1"></div>
+        <button class="collapsible"><span style="float:left ">
+                <i class="fa fa-truck panel-icon" aria-hidden="true"></i>
+                </li>SHIPPING
+            </span><span style="float:right" id="sp">+</span></button>
+        <div class="content" style="background-color: white; display:block">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
+                        <div class="well">
+
+                            {{# if product }}
+                            <form action="/products/shipping/save" id="shipping_update" method="POST">
+                                <input type="hidden" name="pid" id="pid" value="{{ product._id }}">
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="weight">Weight<span style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="weight" id="weight"
+                                            value="{{ product.shippingInfo.weight }}" required>
+
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="length">Length<span style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="length" id="length"
+                                            value="{{ product.shippingInfo.length }}" required>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="width">Width<span style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="width" id="width"
+                                            value="{{ product.shippingInfo.width }}" required>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="height">Height<span style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="height" id="height"
+                                            value="{{ product.shippingInfo.height }}" required>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="freeShipping">Free shipping<span
+                                                style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="checkbox" name="freeShipping" id="freeShipping">
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="additionalCharge">Additional shipping charge<span
+                                                style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control inp" name="additionalCharge"
+                                            id="additionalCharge" value="{{ product.shippingInfo.additionalCharge }}"
+                                            required>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-md-5 col5">
+                                        <label class="lbl" for="deliveryDate">Delivery date<span
+                                                style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="date" class="form-control inp" style=" line-height: 19px; "
+                                            name="deliveryDate" id="deliveryDate"
+                                            value="{{ product.shippingInfo.deliveryDate }}" required>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <center>
+                                        <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                                    </center>
+                                </div>
+                            </form><br>
+                            {{else}}
+                            <p>You need to complete product registration with image in specification section.
+                            </p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#shipping_update').validate({ // initialize the plugin
+                    rules: {
+                        weight: {
+                           
+                            required: true,
+                            maxlength: 7
+                            
+                        },
+                         length: {
+                           
+                            required: true,
+                            maxlength: 7
+                            
+                        },
+                         height: {
+                           
+                            required: true,
+                            maxlength: 7
+                            
+                        },
+                         width: {
+                           
+                            required: true,
+                            maxlength: 7
+                           
+                        },
+                        additionalCharge: {
+                            required: true,
+                            digits:true,
+                            min:1
+                        },
+                        deliveryDate: {
+                            required: true
+                        }
+                    },
+                    submitHandler: function (form) {
+                        alert('valid form submitted');
+                        return false;
+                    }
+                });
+            });
+        </script>
+    </div>
+    {{!--  <div class="box">
+        <button class="collapsible"><span style="float:left ">RELATED PRODUCT</span><span style="float:right"
+                id="sp">+</span></button>
+        <div class="content" style="background-color: white">
+        </div>
+    </div> --}}
+
+
+</div>

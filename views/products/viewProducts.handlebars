@@ -1,0 +1,69 @@
+
+
+
+<div class="container-fluid" id="p_list">
+    
+   <div class="register-logo">
+        <a href="#"><b>Product</b>List</a>
+    </div>
+<div class="row">
+   <button class="btn bg-green" style="float: right;margin: 10px 20px;" id="btnExport" onclick="javascript:xport.toXLS('ptable');"> <li class="fa fa-download" style="padding: 5px"></li>Export as Excel</button>
+    <a  class="btn bg-purple" href="/products/DealerInventory" style="float: right;margin: 10px;margin-right: 0px"><li class="fa fa-plus-square" style="padding: 5px"></li>New Dealer Product</a>
+    <a  class="btn bg-blue" href="/products/InhouseInventory"  style="float: right;margin: 10px ;"><li class="fa fa-plus-square"  style="padding: 5px"></li>New Supplier Product</a>
+    </div><br>
+
+    <div style="background-color: white">
+
+        <table id="ptable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>PRODUCT NAME</th>
+                    <th>MODEL</th>
+                    <th>SELLING PRICE</th>
+                    <th>STATUS</th>
+                    <th>AVAILABILITY</th>
+                    <th>DEALER'S</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{# each products}}
+                {{# if this._id}}
+                <tr>
+                    <td>{{this.count}}</td>
+                    <td>{{this.productName}}</td>
+                    <td>{{this.model}}</td>
+                    <td>{{this.sellingPrice}}TK</td>
+                    <td>{{# if this.isActive}} <span class="tags">Enabled</span>{{else}}<span  class="tags"  style="background: rgb(202, 111, 129)">Disabled</span>{{/if}}</td>
+                    <td>{{# if this.availablity}}<span class="tags">Available</span>{{else}}<span  class="tags"  style="background: rgb(202, 111, 129)">Not Available</span>{{/if}}</td>
+                    <td>{{this.dealer}}</td>
+                    <td>{{# if this.availablity}}
+                        <a href="/products/notAvailable/{{this._id}}" class="btn btn-primary btn-sm" >Not Available</a>
+                        {{else}}<a href="/products/Available/{{this._id}}" class="btn btn-primary btn-sm" >Available</a>
+                        {{/if}}{{# if this.isActive}}<a href="/products/unactive/{{this._id}}" class="btn btn-primary btn-sm ">Disable</a>{{else}}
+                        <a href="/products/active/{{this._id}}" class="btn btn-primary btn-sm">Enable</a>{{/if}}
+                        <a href="/products/Update/{{this._id}}" class="btn btn-primary btn-sm ">Update</a></td>
+                </tr>
+        {{/if}}
+        {{/each}}
+        </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<script>
+    $(document).ready(function() {
+        $('#ptable').DataTable( {
+            stateSave: true
+        } );
+    } );
+</script>
+
+
+
+
+
+
+
+

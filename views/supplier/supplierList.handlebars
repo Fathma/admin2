@@ -1,0 +1,73 @@
+<div class="container-fluid" style="width:100%;min-height: 700px">
+    <div class="register-logo">
+        <a href="#"><b>Supplier</b>List</a>
+    </div>
+
+    <div style="background-color: white">
+        <table id="ptable" style="width:100%" class="table table-striped" >
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>SUPPLIER ID</th>
+                <th>NAME</th>
+                <th>ADDRESS</th>
+                <th>EMAIL</th>
+                <th>CONTACT PERSON</th>
+                <th>COUNTRY</th>
+                <th>INDUSTRY</th>
+                <th>DATE</th>
+                <th>ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+          {{# each supplier}}
+            <tr>
+                <td>{{this.count}}</td>
+                <td>{{this.supplier_id}}</td>
+                <td class="notranslate">{{this.cname}}</td>
+                <td>
+                    {{# each this.address}}
+                        <Strong>Address:</Strong>{{this.address}} <br>
+                        <Strong>Zip:</Strong>{{this.zip}} <br> 
+                        <Strong>Telephone Number:</Strong>{{this.contact}} <br><br>
+                    {{/each}}
+                </td>
+
+                <td>{{this.cemail}}</td>
+                <td class="notranslate">
+                    {{# each this.contactPerson}}
+                        <Strong>Name:</Strong> {{this.contactName}} <br>
+                        <Strong>Position:</Strong>{{this.companyPosition}} <br>
+                        <Strong>Email:</Strong>{{this.email}} <br>
+                        <strong>Mobile:</strong> {{this.mobile}}<br>
+                        <Strong>Telephone:</Strong>{{this.telephone}} <br>
+                        <Strong>Extention:</Strong>{{this.extention}} <br>
+                    <br>
+                    {{/each}}
+                </td>
+               
+                <td>{{this.country}}</td>
+                <td>{{this.industry}}</td>
+                <td>{{formatDate this.created}}</td>
+                <td>
+                    <a href="/supplier/Edit/{{this._id}}" data-toggle="tooltip" 
+                        title="Edit info" class="btn btn-success" style="padding:0%"> <img src="https://img.icons8.com/windows/20/ffffff/edit.png"></a>
+                    <a href="/supplier/delete/{{this._id}}" data-toggle="tooltip" 
+                        title="Delete Supplier" class="btn btn-danger" style="padding:0%"><img src="https://img.icons8.com/ios/20/ffffff/x.png"></a>
+                </td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<br>
+<script>
+    $(document).ready(function() {
+        $('#ptable').DataTable( {
+            stateSave: true
+        } );
+    } );
+</script>

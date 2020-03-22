@@ -1,0 +1,51 @@
+<div class="container-fluid" style="width:100%;min-height: 700px">
+    <div class="register-logo">
+        <a href="#"><b>Registered</b>Admins</a>
+    </div>
+
+    <div style="background-color: white">
+        <table id="ptable" style="width:100%" class="table table-striped" >
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>EMAIL</th>
+                <th>NAME</th>
+                <th>BRANCH</th>
+                <th>ROLE</th>
+                <th>DATE</th>
+                <th>ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+
+           
+          {{# each users}}
+            <tr>
+                <td>{{this.count}}</td>
+                <td>{{this.email}}</td>
+                <td class="notranslate">{{this.name}}</td>
+                <td class="notranslate">{{this.branch}}</td>
+                <td class="notranslate">{{this.role}}</td>
+                <td >{{formatDate this.date}}</td>
+                <td>
+                    <a href="/users/Edit/{{this._id}}" data-toggle="tooltip" 
+                        title="Edit info" class="btn btn-primary btn-sm" > Edit</a>
+                    
+                </td>
+            </tr>
+           
+            {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<br>
+<script>
+    $(document).ready(function() {
+        $('#ptable').DataTable( {
+            stateSave: true
+        } );
+    } );
+</script>

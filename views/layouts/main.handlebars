@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{{title}}</title>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+        <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/jquery.modal.min.css">
+        <link rel="stylesheet" href="/assets/css/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/assets/css/ionicons/css/ionicons.min.css">
+        <link rel="stylesheet" href="/assets/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+        folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="/assets/css/_all-skins.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+        <link rel="stylesheet" href="/assets/css/datatables.min.css">
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/jquery-ui.min.js"></script>
+        <script src="/assets/js/jquery.validate.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/googleapis.css">
+        <script src="/js/js.js"></script>
+        <script src="/js/inventory.js"></script>
+        <link rel="stylesheet" href="/assets/css/bootstrap-table.min.css">
+
+         {{!-- socket.io config --}}
+        <script src="/assets/js/socket.io.js"></script>
+        <script>
+            var socket = io.connect('https://ecom-admin.herokuapp.com');
+            socket.on('news', function (data) {
+                socket.emit('my other event', { my: 'data' });
+            });
+        </script>
+
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini" onload="set_var()">
+        <div class="wrapper">
+            {{> _nav}}
+            {{> _sidebar}}
+            <div class="content-wrapper">
+
+                <section class="content-header">
+                    {{> _msg}}
+                    {{> _errors}}
+                </section>
+
+                <div class="container-fluid">
+                    {{{body}}}
+                </div>
+
+            </div>
+            {{> _footer}}
+        </div>
+
+        <script type="text/javascript">
+
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
+            }
+
+            $(document).ready(function () {
+                $('#ptable').DataTable();
+                $('#ptable1').DataTable();
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+        </script>
+        
+        <style type="text/css" media="print">
+            @page {
+                size: auto;
+                margin: 0;
+            }
+        </style>
+
+        <!-- jQuery 3 -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
+
+        <script src="/assets/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/bootstrap3-wysihtml5.all.min.js"></script>
+        <script src="/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/assets/js/fastclick.js"></script>
+        <script src="/assets/js/adminlte.min.js"></script>
+        <script src="/assets/js/jquery.modal.min.js"></script>
+        {{!-- js library for generating pdf --}}
+        <script src="/assets/js/jspdf.min.js"></script>
+        <script src="/js/js.js"></script>
+        <script src="/js/purchase.js"></script>
+        <script src="/js/reg.js"></script>
+
+    </body>
+</html>

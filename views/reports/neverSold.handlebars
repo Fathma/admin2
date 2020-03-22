@@ -1,0 +1,40 @@
+    
+
+<div class="container-fluid" style="width:100%;min-height: 700px">
+    <div class="register-logo">
+        <a href="#"><b>Products</b>NeverPurchased</a>
+    </div>
+  <div class="row">
+   <button class="btn bg-green" style="float: right;margin: 10px 20px;" id="btnExport" onclick="javascript:xport.toXLS('ptable');"> <li class="fa fa-download" style="padding: 5px"></li>Export as Excel</button>
+   
+    </div><br>
+
+    <div style="background-color: white">
+        <table id="ptable" style="width:100%" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>PRODUCTS</th>
+                    <th>ACTION</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {{# each products}}
+                <tr>
+                    <td>{{this.count}}</td>
+                    <td>{{this.model}}</td>
+                    <td><a href="/products/Update/{{this._id}}" class="btn btn-primary btn-sm ">View</a></td></td>
+                </tr> 
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<script>
+    $(document).ready(function() {
+        $('#ptable').DataTable( {
+            stateSave: true
+        } );
+    } );
+</script>
