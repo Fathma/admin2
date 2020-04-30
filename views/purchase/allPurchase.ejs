@@ -1,8 +1,9 @@
+<%- include('../partials/_head') %>
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
         <a href="#"><b>LocalPurchase</b>List</a>
     </div>
-  
+
     <div style="background-color: white">
         <table id="ptable"  class="table table-striped" >
             <thead>
@@ -19,22 +20,24 @@
             </tr>
             </thead>
             <tbody>
-            {{# each lp}}
+        <% for(var i = 0; i< lp.length; i++) { %>
             <tr>
-                <td>{{this.count}}
-                <td>{{this.number}}</td>
-                <td>{{formatDate this.date}}</td>
-                <td>{{this.supplier.cname}}</td>
-                <td>{{this.address}}</td>
-                <td>{{this.contactPerson}}</td>
-                <td>{{this.mobile}}</td>
-                <td>{{formatNumber this.subTotal}} TK</td>
+                <td><%=lp[i].count %>
+                <td><%=lp[i].number %></td>
+                
+                <td><%= moment(lp[i].date).format( 'Do MMMM, YYYY')  %></td>
+                <td><%=lp[i].supplier.cname %></td>
+                <td><%=lp[i].address %></td>
+                <td><%=lp[i].contactPerson %></td>
+                <td><%=lp[i].mobile %></td>
+                <!-- formatNumber -->
+                <td><%= lp[i].subTotal%> TK</td>
                 <td>
-                    <a class="btn btn-default" href="/purchase/localPurchase/{{this.number}}">Details</a>
-                    <a class="btn btn-default" href="/purchase/productList/{{this._id}}">List</a>
+                    <a class="btn btn-default" href="/purchase/localPurchase/<%=lp[i].number %>">Details</a>
+                    <a class="btn btn-default" href="/purchase/productList/<%=lp[i]._id %>">List</a>
                 </td>
             </tr>
-            {{/each}}
+        <% } %>
             </tbody>
         </table>
     </div>
@@ -47,3 +50,4 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>

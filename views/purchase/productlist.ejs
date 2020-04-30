@@ -1,3 +1,4 @@
+<%- include('../partials/_head') %>
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
         <a href="#"><b>Product List</a>
@@ -14,17 +15,21 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each products}}
+            <% for(var i = 0; i< products.length; i++) { %>
+
                 <tr>
-                    <td>{{this.product.model}}</td>
-                    <td>{{this.quantity}}</td>
-                    <td>{{formatNumber this.purchasePrice}}TK</td>
-                    <td>{{formatNumber this.total}}TK</td>
+                    <td><%= products[i].product.model%></td>
+                    <td><%= products[i].quantity%></td>
+                    <!-- formatNumber -->
+                    <td><%= products[i].purchasePrice%>TK</td>
+                    <!-- formatNumber -->
+                    <td><%= products[i].total%>TK</td>
                 </tr>
-                {{/each}}
+            <% } %>
             </tbody>
         </table>
 
     </div>
 
 </div>
+<%- include('../partials/_footer') %>

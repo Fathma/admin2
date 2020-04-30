@@ -1,10 +1,11 @@
+<%- include('../partials/_head') %>
 
 <div class="container-fluid">
 
     <div class="box">
         <div id="#PRODUCT"></div>
         <button class="collapsible">
-            <li class="fa fa-info panel-icon" style="padding: 5px;"></li><span>SUB CATEGORY INFO</span><span
+            <li class="fa fa-info panel-icon" style="padding: 5px;"></li><span>BRAND INFO</span><span
                 style="float:right" id="sp">+</span>
         </button>
 
@@ -16,34 +17,19 @@
                     <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
 
                         <div class="well">
-                            <form action="/category/addSubCategory" method="POST">
-            
+                            <form action="/category/addBrand" method="POST">
                                 <div class="row">
                                     <div class="col-md-5 col5">
-                                        <label class="lbl" for="cate">Category
+                                        <label class="lbl" for="brand">Brand
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <select class="form-control inp" name="cate" id="cate" required>
-                                            <option value="">Select One</option>
-                                            {{# each cat}}
-                                            <option value="{{this._id}}">{{this.name}}</option>
-                                            {{/each}}
-                                        </select>
+                                        <input type="text" class="form-control inp" name="brand"
+                                            id="brand" required>
+                                            
                                     </div>
                                 </div>
                                 <br>
-                                <div class="row">
-                                    <div class="col-md-5 col5">
-                                        <label class="lbl" for="subCat">Sub Category
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" name="subCat" id="subCat" class="form-control inp" required>
-                                    </div>
-                                </div>
-                                <br>
-                                
                                 <div class="row">
                                     <center>
                                         <button type="submit" class="btn btn-default btn-md">Save</button>
@@ -57,3 +43,4 @@
         </div>
     </div>
 </div>
+<%- include('../partials/_footer') %>

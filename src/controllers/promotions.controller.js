@@ -49,7 +49,7 @@ exports.SaveCoupon =async (req, res) =>{
         req.body.createdBy= req.user
         await new Coupon(req.body).save().then((coupon)=>{
             req.flash('success_msg', 'Coupon has created successfully!')
-            res.redirect('/promotions/CouponEdit/'+ coupon._id)
+            res.redirect('/promotions/CouponList')
         })
     }             
 

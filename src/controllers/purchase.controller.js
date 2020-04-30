@@ -36,7 +36,7 @@ exports.LocalPurchasePage =async (req, res) => {
   let categories = await SubCategory.find()
   let brand = await Brand.find()
 
-  res.render('purchase/localPurchase',{ date, Supplier: supplier, cat, categories, brand })
+  res.render('purchase/localPurchase.ejs',{ date, Supplier: supplier, cat, categories, brand })
 }
 
 
@@ -44,7 +44,7 @@ exports.LocalPurchasePage =async (req, res) => {
 exports.productList = async (req, res)=>{
   var lp = await LP.findOne({_id: req.params._id}).populate('products.product')
  
-  res.render('purchase/productList', { products: lp.products })
+  res.render('purchase/productList.ejs', { products: lp.products })
 }
 
 
@@ -53,7 +53,7 @@ exports.getLPList = async (req, res) =>{
   var lp = await LP.find().populate('supplier').sort({ "date": -1 })
   var count = 1;
   lp.map( doc=> doc.count = count++ )
-  res.render('purchase/allPurchase', { lp })
+  res.render('purchase/allPurchase.ejs', { lp })
 } 
 
 
@@ -94,6 +94,7 @@ exports.getProducts = (req, res) => {
 // fires local purchase page for a specific local purchase
 exports.LocalPurchaseLPPage = (req, res) => {
   console.log(req.params.invc)
+  
   LP.findOne({ number: req.params.invc })
     .populate('products.product')
     .populate({
@@ -120,8 +121,9 @@ exports.LocalPurchaseLPPage = (req, res) => {
       let cat = await Category.find()
       let categories = await SubCategory.find()
       let brand = await Brand.find()
+      var supplier = await Supplier.find();
 
-      res.render('purchase/localPurchase', { lp: doc, cat, categories, brand });
+      res.render('purchase/localPurchase.ejs', { lp: doc, cat, categories, brand, Supplier: supplier });
     });
 };
 
@@ -133,6 +135,7 @@ exports.SaveLocalPurchase = async (req, res) => {
   var total = Number(quantity) * Number(purchasePrice)
   var brand = (brandN).split(',')
   
+  
   // fetching sub, cat, brand and product
   var cat = (cattN).split(',')
   if(subNn != '0'){
@@ -141,13 +144,15 @@ exports.SaveLocalPurchase = async (req, res) => {
   }
   
   await Category.updateOne({_id: cat[0]}, {$addToSet:{ brands: brand[0]} },{ upsert: true })
-  
+  console.log(model1)
   var pro = await Product.findOne({ model: model1 });
+
   var lp = await LP.findOne({ number });
 
 
   // if the fetched product is null insert the product
   if (pro === null) {
+    
     var pro_obj = {
       model: model1,
       category: cat[0],

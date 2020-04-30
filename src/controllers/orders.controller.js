@@ -151,6 +151,7 @@ var get_orders = (condition, cb)=>{
 // view list of customers
 exports.showOrderDetails = (req, res) => {
   get_orders({ _id: req.params.id }, async rs => {
+  
     if(rs){
       for (var i = 0; i < rs[0].cart.length; i++) {
         rs[0].cart[i].oid = req.params.id
@@ -159,6 +160,8 @@ exports.showOrderDetails = (req, res) => {
      
       var invoice = await Invoice.findOne({ order:rs[0]._id })
       rs[0].invoice = invoice;
+      console.log(rs[0])
+
      
       res.render('orders/orderDetails', { order: rs[0], or_id: req.params.id })
     }
@@ -171,6 +174,7 @@ exports.updateHistory =async (req, res) => {
   var status = req.body.status
 
   if (req.body.notify === '1') {
+    console.log("asad")
     var notify = 'Yes'
     Email.sendEmail( 'devtestjihad@gmail.com', req.body.email, 'ECL update', '<h2>' + req.body.comment + '</h2>' );
   } else var notify = 'No' 

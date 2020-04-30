@@ -6,7 +6,7 @@ const Supplier = require('../models/supplier.model')
 var randomstring = require('randomstring')
 
 // get supplier registration page
-exports.supplierRegistrationPage = (req, res) => res.render('supplier/supplierReg', { date: new Date() })
+exports.supplierRegistrationPage = (req, res) => res.render('supplier/supplierReg.ejs', { date: new Date() })
 
 
 // save supplier info
@@ -29,7 +29,7 @@ exports.supplierList = async(req, res) => {
   var supplier = await Supplier.find().sort({ "created": -1 })
   var count = 1;
   supplier.map( doc=> doc.count = count++ )
-  res.render('supplier/supplierList', { supplier }) 
+  res.render('supplier/supplierList.ejs', { supplier }) 
 }
 
 
@@ -38,7 +38,7 @@ exports.supplierEditPage = (req, res) => {
   Supplier.findOne({ _id: req.params.id }, (err, docs) => {
     if ( docs.address != null && docs.contactPerson != null ) {
      
-      res.render('supplier/supplierEdit', {
+      res.render('supplier/supplierEdit.ejs', {
         supplier: docs,
         total_address: docs.address.length,
         total_contacts: docs.contactPerson.length

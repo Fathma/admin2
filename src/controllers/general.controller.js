@@ -42,7 +42,7 @@ exports.getAllNotification=async(req, res) => {
 // get dashboard 
 exports.showDashboard =async (req, res) => {
   notification((quantity,new_order,newPost, count)=>{
-    res.render('general/dashboard', { quantity ,  new_order, newPost, count })
+    res.render('general/dashboard.ejs', { quantity ,  new_order, newPost, count })
   })
 }
 
@@ -67,46 +67,57 @@ var find_duplicate_in_array = (arra1, cb)=> {
 }
 
 var orderedProducts =async (cb)=>{
-  var orders = await Order.find().populate('cart.product')
   let cart=[]
+
+  // getting all orders
+  var orders = await Order.find().populate('cart.product')
+  // getting all ordered products from cart inside order collection
   orders.map(order=>{
     order.cart.map(item=>{
       cart.push(item)
     })
   })
-  let pros = []
+
+  var pros = []
   cart.map(item=>{
     pros.push(item.product._id)
   })
   
   find_duplicate_in_array(pros, duplicated=>{
-    
+
+    if(duplicated.length == 0){
+      duplicated = pros
+    }
+
     let unique=[]
-    let multi = null
-    cart.map(item=>{
-     
-      duplicated.map(dup=>{
-        if(item.product._id == dup){
-          if(multi == null){
-            multi=item
+      let multi = null
+      cart.map(item=>{
+       
+        duplicated.map(dup=>{
+          if(item.product._id == dup){
+            if(multi == null){
+              multi=item
+            }else{
+              multi.quantity = multi.quantity + item.quantity
+              multi.price = multi.price +item.price
+            }
           }else{
-            multi.quantity = multi.quantity + item.quantity
-            multi.price = multi.price +item.price
+            unique.push(item)
           }
-        }else{
-          unique.push(item)
-        }
+        })
       })
-    })
-    unique.push(multi)
-    cb(unique)
+      unique.push(multi)
+      
+      cb(unique)
+
+   
   })
 }
 
 // gets products which have sold at least once
 exports.bestSellers= async(req, res) => {
   orderedProducts(unique=>{
-    var count = 1;
+    let count = 1;
     unique.map( doc=> doc.count = count++ )
     res.render('reports/productbyOrder',{ products: unique })
   })
@@ -134,6 +145,7 @@ exports.productNeverSold = async(req, res) => {
 // this funtion takes each sold products by serial/ product id. finds their purchase price and selling price. from totalSellingPrice - totalPruchasePrice = profit
 function processProfitByProduct (serial, res){
   var cost = 0;
+  console.log(serial)
   serial.map(async ser=>{
     let pro = ser.lp.products.filter( pro=> JSON.stringify(pro.product) == JSON.stringify(ser.pid._id))
     ser.cost = pro[0].purchasePrice

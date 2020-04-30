@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="container-fluid">
 
     <div class="box">
@@ -15,7 +17,7 @@
                     <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
                         <div class="well">
                             <form action="/category/updateBrand" method="POST">
-                            <input type="hidden" name="id" id="id" value="{{brand._id}}">
+                            <input type="hidden" name="id" id="id" value="<%=brand._id%>">
                                 <div class="row">
                                     <div class="col-md-5 col5">
                                         <label class="lbl" for="brand">Brand
@@ -23,7 +25,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="name"
-                                            id="name" value="{{brand.name}}" required>
+                                            id="name" value="<%=brand.name%>" required>
                                             
                                     </div>
                                 </div>
@@ -46,6 +48,7 @@
             <li class="fa fa-info panel-icon" style="padding: 5px;"></li><span>DISCOUNT</span><span
                 style="float:right" id="sp">+</span>
         </button>
+        
 
         <div class="content" style="background-color: white; min-height: 100px; display:block">
             <div class="register-logo">
@@ -55,7 +58,7 @@
                     <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
                         <div class="well">
                             <form action="/category/SaveDiscountBrand" method="POST">
-                                <input type="hidden" name="id" id="id" value="{{brand._id}}">
+                                <input type="hidden" name="id" id="id" value="<%=brand._id %>">
                                 <div class="row">
                                     <div class="col-md-5 col5">
                                         <label class="lbl" for="discount">Discount</label>
@@ -63,9 +66,15 @@
                                     <div class="col-md-6">
                                         <select name="discount" id="discount" class="form-control inp">
                                             <option value="">Select One</option>
-                                             {{# each discount}}
-                                                <option value="{{this._id}}" {{# equality this._id ../brand.discount }}selected{{/equality}}>{{this.name}}:{{# if this.usePercentage}}{{this.discountPercent}}%{{else}}{{this.discountAmount}}TK{{/if}}Off</option>
-                                            {{/each}}
+                                            <% for(let i=0; i< discount.length; i++){ %>
+                                                <option value="<%= discount[i]._id%>"
+                                                    <% if(locals.discount.discount && (discount[i]._id.toString() == brand.discount.toString()) ) { %>selected <% } %>>
+                                                    <%=discount[i].name%>:
+                                                    <% if (discount[i].usePercentage) { %>
+                                                    <%= discount[i].discountPercent %>%<% } else { %> 
+                                                    <%= discount[i].discountAmount %> TK<% } %> Off
+                                                </option>
+                                            <% } %>
                                         </select>
                                     </div>
                                 </div>
@@ -83,3 +92,5 @@
         </div>
     </div>
 </div>
+
+<%- include('../partials/_footer') %>

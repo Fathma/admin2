@@ -2,6 +2,7 @@
     <div class="row">
 
     </div><Br></Br>
+    {{order.invoice._id}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-1"></div>
@@ -11,7 +12,7 @@
                         <h3 class="panel-title">Order Details</h3>
                     </div>
 
-                    <div class="panel-body">
+                    {{!-- <div class="panel-body">
                         <div class="order">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
@@ -25,15 +26,7 @@
                                             <td><a href="/orders/ViewInvoice/{{order.invoice._id}}">{{order.invoice.invoiceId}}</a>
                                             </td>
                                         </tr>
-                                        {{!-- <tr>
-                                            <td>Invoice No:</td>
-                                            <td>
-                                                <a href="/orders/generateInvoice/{{order._id}}" id="button-invoice"
-                                                    class="btn btn-success btn-xs">
-                                                    
-                                                    <i class="fa fa-cog"></i> Generate</a>
-                                            </td>
-                                        </tr> --}}
+                                        
 
                                         <tr>
                                             <td>Customer:</td>
@@ -44,10 +37,7 @@
                                             <td>E-Mail:</td>
                                             <td><a href="mailto:{{order.user.email}}">{{order.user.email}}</a></td>
                                         </tr>
-                                        {{!-- <tr>
-                                            <td>Telephone:</td>
-                                            <td>{{order.user.contact}}</td>
-                                        </tr> --}}
+                                       
                                         <tr>
                                             <td>Total:</td>
                                             <td>{{formatNumber order.totalAmount}}TK</td>
@@ -79,10 +69,10 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
-                <div class="panel panel-default">
+                {{!-- <div class="panel panel-default">
 
                     <div class="panel-heading">
                         <h3 class="panel-title">Shipping Info</h3>
@@ -135,7 +125,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> --}}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Products</h3>
@@ -225,13 +215,13 @@
                                         </thead>
                                         <tbody>
                                             {{# each order.history}}
-                                            <tr>
+                                            {{!-- <tr>
                                                 <td class="text-left">{{formatDate this.date}}</td>
                                                 <td class="text-left">{{this.comment}}</td>
 
                                                 <td class="text-left">{{this.status}}</td>
                                                 <td class="text-left">{{this.customerNotified}}</td>
-                                            </tr>
+                                            </tr> --}}
                                             {{/each}}
                                         </tbody>
                                     </table>

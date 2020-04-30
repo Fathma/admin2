@@ -9,11 +9,11 @@ const value= require('../../config/values')
 
 
 // simply fires a page
-exports.newCategory= (req, res) => res.render('parents/newCategory')
-exports.newBrand= (req, res) => res.render('parents/newBrand')
+exports.newCategory= (req, res) => res.render('parents/newCategory.ejs')
+exports.newBrand= (req, res) => res.render('parents/newBrand.ejs')
 exports.newSubCategory=async (req, res) =>{
   let cat= await Cat.find()
-  res.render('parents/newSubCategory', { cat })
+  res.render('parents/newSubCategory.ejs', { cat })
 } 
 
 
@@ -23,7 +23,7 @@ exports.updateCategory = async (req, res) => {
   let category = await Cat.findOne({ _id: req.params.id })
   let discount = await Discount.find({type:"category", enabled: "true"})
   req.flash( 'success_msg', value.update.succ)
-  res.render('parents/updateCategory', { category, discount })
+  res.render('parents/updateCategory.ejs', { category, discount })
 }
 
 
@@ -32,14 +32,14 @@ exports.updateSubCategory = async (req, res) => {
   let discount = await Discount.find({type:"subcategory", enabled: "true"})
   let cat = await Cat.find()
   req.flash( 'success_msg', value.update.succ)
-  res.render('parents/updateSubCategory', { subcategory, discount, cat })
+  res.render('parents/updateSubCategory.ejs', { subcategory, discount, cat })
 }
 
 
 exports.updateBrand = async (req, res) => {
   let brand = await Brand.findOne({ _id: req.params.id })
   let discount = await Discount.find({type:"brand", enabled: "true"})
-  res.render('parents/updateBrand', { brand, discount })
+  res.render('parents/updateBrand.ejs', { brand, discount })
 }
 
 
@@ -206,7 +206,7 @@ exports.categoryList = async( req, res )=> {
   var category = await Cat.find()
   var count = 1;
   category.map( doc=> doc.count = count++ )
-  res.render('parents/categoryList', { category })
+  res.render('parents/categoryList.ejs', { category })
 }
 
 
@@ -215,7 +215,7 @@ exports.subCategoryList = async( req, res )=>{
   var subcategory =  await subCategory.find().populate('category')
   var count = 1;
   subcategory.map( doc=> doc.count = count++ )
-  res.render('parents/subCategoryList', { subcategory })
+  res.render('parents/subCategoryList.ejs', { subcategory })
 } 
 
 
@@ -224,7 +224,7 @@ exports.brandList = async( req, res )=>{
   var brand = await Brand.find()
   var count = 1;
   brand.map( doc=> doc.count = count++ )
-  res.render('parents/brandList', { brand })
+  res.render('parents/brandList.ejs', { brand })
 } 
 
 

@@ -1,0 +1,8 @@
+<% if(error != ''){ %>
+<div class="alert alert-danger"><%= error %></div>
+<% } %>
+<% if(errors != ''){ %>
+<% errors.forEach(function(err) { %>
+<div class="alert alert-danger"><%= err%></div>
+<% }); %>
+<% } %>

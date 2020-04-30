@@ -197,7 +197,8 @@ exports.relatedProductsDelete1 = async(req, res)=>{
 // viewProducts
 exports.viewProducts = (req, res)=>{
   Product.find().sort({'created': -1})
-  .select({ productName:1, model: 1, sellingPrice: 1, isActive:1, availablity: 1, dealer: 1, _id:1 })
+  .select({ productName:1, model: 1, sellingPrice: 1, isActive:1, availablity: 1, dealer: 1, _id:1, discount:1 })
+  .populate('discount')
   .exec((err, products)=>{
     var count = 1;
     products.map( doc=> doc.count = count++ )

@@ -12,7 +12,7 @@ const User = require('../models/user.model')
 const keys = require('../../config/keys')
 
 // User login route
-exports.loginPage = (req, res, next) => res.render('users/login')
+exports.loginPage = (req, res, next) => res.render('users/login.ejs')
 
 
 // User register route

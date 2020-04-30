@@ -1,7 +1,6 @@
 const express = require("express");
 var cluster = require('cluster');
 
-const handlebars = require("express-handlebars");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const flash = require("connect-flash");
@@ -11,11 +10,10 @@ const passport = require("passport");
 const path = require("path");
 const mongoStore = require("connect-mongo")(session);
 const methodOverride = require("method-override");
-const HandlebarsIntl = require("handlebars-intl");
-const Handlebars = require("handlebars");
 const moment = require("moment");
 const expressValidator = require('express-validator');
 const Grid = require('gridfs-stream')
+const ejs = require('ejs')
 
 const app = express();
 var compression = require('compression')
@@ -29,7 +27,7 @@ const keys = require('./config/keys')
 var vlaues = require('./config/values')
 
 
-moment().format();
+// moment().format();
 
 // role
 const { ensureAuthenticated } = require("./src/helpers/auth");
@@ -50,89 +48,63 @@ const generalRoutes = require("./src/routes/general.routes")
 var forumRoutes = require("./src/routes/forum.routes")
 var promotionsRoutes = require("./src/routes/promotions.routes")
 
-
-
 // Passport config
 require("./config/passport")(passport);
 
- // Map global promise
- mongoose.Promise = global.Promise;
+// Map global promise
+mongoose.Promise = global.Promise;
+
+mongoose.connect( keys.database.mongoURI,  err => {
+  if (!err) console.log("MongoDB connection Established, " + keys.database.mongoURI);
+  else console.log("Error in DB connection :" + JSON.stringify(err, undefined, 2));
+});
+mongoose.set('useNewUrlParser', true);
 
 
+var con = mongoose.connection;
 
- mongoose.connect( keys.database.mongoURI,  err => {
-   if (!err) console.log("MongoDB connection Established, " + keys.database.mongoURI);
-   else console.log("Error in DB connection :" + JSON.stringify(err, undefined, 2));
- });
- mongoose.set('useNewUrlParser', true);
+let gfs;
+con.once('open', function () {
+  gfs = Grid(con.db, mongoose.mongo);
+  gfs.collection('fs');
+})
 
+// app.use(morgan("dev"));
 
- var con = mongoose.connection;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
 
- let gfs;
-  con.once('open', function () {
-    gfs = Grid(con.db, mongoose.mongo);
-    gfs.collection('fs');
+app.set('view engine', 'ejs');
+app.use(methodOverride("_method"));
+
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//Static Folder
+app.use(express.static(path.join(__dirname, "static")));
+
+// Express session middleware
+app.use( session({
+    secret: keys.session.secret,
+    resave: false,
+    saveUninitialized: false,
+    store: new mongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: { maxAge: 180 * 60 * 1000 }
   })
+);
 
-  HandlebarsIntl.registerWith(Handlebars);
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
-  // app.use(morgan("dev"));
+// middleware for flash msg
+app.use(flash());
 
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(expressValidator());
 
-  const hbs = handlebars.create({
-    defaultLayout: "main",
-    // custom helpers for 'if(something1 === something2){ do something }'
-    helpers: {
-      equality: function(value1, value2, block) {
-        if (value1 === undefined ||value1 === null || value2 === undefined || value2 === null) {
-        } else {
-          if (value1.toString() == value2.toString()) {
-            return block.fn(true);
-          } else return block.inverse(false);
-        }
-      }
-    }
-  });
-
-  app.engine("handlebars", hbs.engine);
-  app.set("view engine", "handlebars");
-  app.use(methodOverride("_method"));
-
-  // Body parser middleware
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-
-   //Static Folder
-   app.use(express.static(path.join(__dirname, "static")));
-
-   // Express session middleware
-   app.use( session({
-       secret: keys.session.secret,
-       resave: false,
-       saveUninitialized: false,
-       store: new mongoStore({ mongooseConnection: mongoose.connection }),
-       cookie: { maxAge: 180 * 60 * 1000 }
-     })
-   );
- 
-   // Passport middleware
-   app.use(passport.initialize());
-   app.use(passport.session());
- 
-   // middleware for flash msg
-   app.use(flash());
- 
-   Handlebars.registerHelper("formatTime", function(date, format) {
-     var mmnt = moment(date);
-     return mmnt.format(format);
-   });
- 
- 
 
 if (cluster.isMaster) {
+
   console.log(`Master ${process.pid} is running`);
   // Count the machine's CPUs
   var cpuCount = require('os').cpus().length;
@@ -146,7 +118,9 @@ if (cluster.isMaster) {
   cluster.on('exit', function () {
     cluster.fork();
   });
+
 } else {
+  
   console.log(`worker  ${process.pid} is running`);
 
   // Gloabl variables
@@ -158,6 +132,7 @@ if (cluster.isMaster) {
     res.locals.user = req.user || null;
     res.locals.session = req.session;
     res.locals.productentry_msg = vlaues.msg.productentry;
+    res.locals.moment = moment;
     next();
   });
 

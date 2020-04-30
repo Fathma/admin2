@@ -1,4 +1,6 @@
 
+
+<%- include('../partials/_head') %>
 <div class="register-box-body col-md-5">
     <div class="register-logo">
         <b>Local</b>Purchase
@@ -8,7 +10,6 @@
             <div class="col-md-5 col5">
                 <label class="lbl" for="date">Date:<span style="color:red">*</span> </label>
             </div>
-
             <div class="col-md-6">
                 {{# if lp.date}}
                 <input type="text" class="form-control inp" name="date11" id="date11" value=" {{formatDate lp.date}}"
@@ -30,6 +31,7 @@
         </div>
 
         <br>
+
 
         <div class="row">
             <div class="col-md-5 col5">
@@ -305,3 +307,4 @@
     document.querySelector("#date11").value = today;
     document.querySelector("#time11").value = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();;
 </script>
+<%- include('../partials/_footer') %>

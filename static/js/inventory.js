@@ -72,6 +72,7 @@ $(document).ready(()=>{
       byId('save_inventory').disabled = false;
       const {serial_availablity}= product[0].product;
       const {quantity,purchasePrice}= product[0];
+      byId( 'name' ).value = name;
   
       byId( 'unitPrice' ).value = purchasePrice;
       byId( 'unitPrice' ).disabled = true
@@ -261,7 +262,7 @@ $(document).ready(()=>{
   
             $.post("/products/regiSave",{ data: product_attribute, serials: serials }, (data)=>{
               // alert("Now Submit image")
-              window.location.href="http://ecom-admin.herokuapp.com/products/Update/"+ pid +"#PRODUCT";
+              window.location.href="http://admin.bimeetest.com.bd/products/Update/"+ pid +"#PRODUCT";
               // byId('msg_img').innerHTML = ''
               // byId("save_img").disabled = false;
             });

@@ -1,24 +1,25 @@
 <header class="main-header" >
     <!-- Logo -->
-    {{# if user}}
+    <% if(user){ %>
+    
     <a href="#" class="logo">
         <span class="logo-mini"><b>A</b>DB</span>
         <span class="logo-lg"><b>Admin</b>Dashboard</span>
     </a>
-    {{else}}
+    <% } else{ %> 
     <a href="#" class="logo"><span class="logo-lg">ECL</span></a>
-    {{/if}}
+    <% } %>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
-    {{# if user}}
+    <% if(user){ %>
     <!-- Sidebar toggle button-->
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
     <span class="sr-only">Toggle navigation</span>
     </a>
-    {{/if}}
+    <% } %>
     <div class="navbar-custom-menu">
     <ul class="nav navbar-nav">
-    {{#if user}}
+    <% if(user){ %>
     <li class="nav-item">
     <a id="google_translate_element" ></a>
     </li>
@@ -45,18 +46,12 @@
     </ul>
     </li>
 
-    {{!-- <li class="nav-item">
-    <a href="/users/register" class="nav-link">
-    <img src="https://img.icons8.com/ios/20/ffffff/add-user-group-man-man-filled.png">
-    </a>
-    </li> --}}
-
     <li class="nav-item"><a href="/users/logout" class="nav-link">Logout</a></li>
 
-    {{else}}
+    <% } else{ %> 
     <li><a href="/users/login" class="nav-link">Login</a></li>
 
-    {{/if}}
+    <% } %>
     </ul>
     </div>
     </nav>

@@ -1,5 +1,5 @@
 <!-- Left side column. contains the logo and sidebar -->
-{{#if user}}
+<% if(user){ %>
 <aside class="main-sidebar" style="position: fixed;">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -10,16 +10,16 @@
             </div>
             <div class="pull-left info">
                 <p> <a href="/users/profile/{{user._id}}">{{user.name}}</a></p>
-                {{#if user}}
+                <% if(user){ %>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                {{else}}
+                <% } else{ %> 
                 <a href="#"><i class="fa fa-circle text-danger"></i> Offline</a>
-                {{/if}}
+                <% } %>
             </div>
         </div>
 
         <!-- sidebar menu: : style can be found in sidebar.less -->
-        {{#if user}}
+        <% if(user){ %>
         <ul class="sidebar-menu " data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
 
@@ -195,12 +195,12 @@
             </li>
 
         </ul>
-        {{else}}
+        <% } else{ %> 
         <h4 style="color:lightskyblue">Please Log in first to Get Access</h4>
-        {{/if}}
+        <% } %>
     </section>
     <!-- /.sidebar -->
 </aside>
-{{else}}
+<% } else{ %> 
 <aside class="main-sidebar" style="background-color: #ecf0f5"></aside>
-{{/if}}
+<% } %>

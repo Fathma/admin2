@@ -1,7 +1,9 @@
 
+<%- include('../partials/_head') %>
+
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
-        <a href="#"><b>Brand</b>lIST</a>
+        <a href="#"><b>Brand</b>LIST</a>
     </div>
     <div class="row">
         <button class="btn bg-green" style="float: right;margin: 10px 20px;" id="btnExport" onclick="javascript:xport.toXLS('ptable');"> <li class="fa fa-download" style="padding: 5px"></li>Export as Excel</button>
@@ -19,29 +21,29 @@
             </tr>
             </thead>
             <tbody>
-          {{# each brand}}
+            <% for(let i=0; i< brand.length; i++){ %>
             <tr>
-                <td>{{this.count}}</td>
-                <td>{{this.name}}</td>
-               {{# if this.enabled}}
+                <td><%=brand[i].count%></td>
+                <td><%=brand[i].name%></td>
+                <% if(brand[i].enabled) { %>
                 <td><span class="tags">Enabled</span></td>
-                {{else}}
+                <% } else { %>
                 <td><span  class="tags"  style="background: rgb(202, 111, 129)">Disabled</span></td>
-                {{/if}}
+                <% } %>
                 <td>
-                    <a href="/category/updateBrand/{{this._id}}" data-toggle="tooltip" 
+                    <a href="/category/updateBrand/<%=brand[i]._id%>" data-toggle="tooltip" 
                         title="Edit info" class="btn btn-primary btn-sm" >Edit</a>
-                    {{# if this.enabled}}
-                    <a href="/category/brand/changeStatus/{{this._id}}/false" data-toggle="tooltip" 
+                    <% if(brand[i].enabled) { %>
+                    
+                    <a href="/category/brand/changeStatus/<%=brand[i]._id%>/false" data-toggle="tooltip" 
                         title="Disable the brand" class="btn btn-primary btn-sm" >Disable</a>
-                    {{else}}
-                        <a href="/category/brand/changeStatus/{{this._id}}/true" data-toggle="tooltip" 
+                    <% } else { %>
+                        <a href="/category/brand/changeStatus/<%=brand[i]._id%>/true" data-toggle="tooltip" 
                         title="Enable the brand" class="btn btn-primary btn-sm" >Enable</a>
-                    {{/if}}
+                    <% } %>
                 </td>
             </tr>
-           
-            {{/each}}
+            <% } %>
             </tbody>
         </table>
 
@@ -56,3 +58,4 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>
