@@ -1,4 +1,4 @@
-
+<%- include('../partials/_head') %>
     <div class="register-logo">
         <a href="#"><b>LowStock</b>Products</a>
     </div>
@@ -20,14 +20,16 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each serials}}
+                <% for(let i=0; i< serials.length; i++){ %>
                 <tr>
-                    <td>{{this.count}}</td>
-                    <td>{{this.product.productName}}</td>
-                    <td>{{this.quantity}}</td>
+                    <td><%=serials[i].count %></td>
+                    <td><%=serials[i].product.productName %></td>
+                    <td><%=serials[i].quantity %></td>
                 </tr>
-                {{/each}}
+                <% } %>
             </tbody>
         </table>
     </div>
 </div>
+<%- include('../partials/_footer') %>
+
