@@ -28,13 +28,13 @@ conn.once('open', function () {
 })
 
 // fires the page to create new product specification 
-exports.SpecificationsNew = (req, res)=> res.render('products/newSpecification')
+exports.SpecificationsNew = (req, res)=> res.render('products/newSpecification.ejs')
 
 
 // fires the page if new specification need while registering a product. 
 // that id is to go back that specific product after adding new specification
 exports.SpecificationsNewId = (req, res)=> {
-  res.render('products/newSpecification', { id: req.params.id})
+  res.render('products/newSpecification.ejs', { id: req.params.id})
 }
 
 // making a product disable
@@ -97,7 +97,7 @@ exports.Specifications =async (req, res)=>{
   var specifications = await Specification.find().populate('createdBy')
   var count = 1;
   specifications.map( doc=> doc.count = count++ )
-  res.render('products/specifications',{ specifications })
+  res.render('products/specifications.ejs',{ specifications })
   
 }
 
@@ -202,7 +202,7 @@ exports.viewProducts = (req, res)=>{
   .exec((err, products)=>{
     var count = 1;
     products.map( doc=> doc.count = count++ )
-    res.render('products/viewProducts', { products })
+    res.render('products/viewProducts.ejs', { products })
   })
 }
 
@@ -299,7 +299,7 @@ exports.deteteImg = (req, res)=>{
 // In-house stock product entry page
 exports.getInhouseInventoryPage =async (req, res) => {
   let localPurchase = await LocalPurchase.find()
-  res.render('products/InhouseStockProduct',{ LocalPurchase: localPurchase });
+  res.render('products/InhouseStockProduct.ejs',{ LocalPurchase: localPurchase });
 }
 
 // dealer stock product entry page
@@ -307,7 +307,7 @@ exports.getDealerInventoryPage =async (req, res) =>{
   let cat = await Category.find()
   let categories = await SubCategory.find()
   let brand = await Brand.find()
-  res.render('products/dealerProduct',{cat, categories, brand})
+  res.render('products/dealerProduct.ejs',{cat, categories, brand})
 } 
 
 
@@ -352,11 +352,11 @@ exports.showProductRegistrationFields =async (req, res, next) => {
     // checks whether the model already exists or not
     Product.findOne({ model: model }, ( err, result )=>{
       if( !result ){
-        new Product( product ).save().then( product => res.render('products/dealerProduct',{ product, features, feature_total: features.length }))
+        new Product( product ).save().then( product => res.render('products/dealerProduct.ejs',{ product, features, feature_total: features.length }))
       }
       else { 
         req.flash('error_msg', 'The product already exists!')
-        res.render('products/dealerProduct') }
+        res.render('products/dealerProduct.ejs') }
     })
   })
 };
@@ -426,7 +426,7 @@ exports.getSerials = (req, res)=>{
         }
         doc.count = count++
       }  )
-    res.render('products/allSerials', { serials })
+    res.render('products/allSerials.ejs', { serials })
   })
 }
 
@@ -449,7 +449,7 @@ exports.viewLowQuantityProducts = async (req, res)=>{
       count++
     } 
   }
-  res.render('products/LowInStock', { serials })
+  res.render('products/LowInStock.ejs', { serials })
 }
 
 // make product not available

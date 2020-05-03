@@ -1,3 +1,4 @@
+<%- include('../partials/_head') %>
 
 <div class="container-fluid">
 <div class="register-logo">
@@ -26,44 +27,51 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each specifications}}
-                {{# if this._id}}
+                <% for(let i=0; i< specifications.length; i++){ %>
+                    <% if(specifications[i]._id){ %>
                 <tr>
-                    <td>{{this.count}}</td>
-                    <td>{{this.name}}</td>
-                    <td>{{formatDate this.created}}</td>
-                    <td>{{this.createdBy.name}}</td>
+                    <td><%=specifications[i].count%></td>
+                    <td><%=specifications[i].name%></td>
+                    <td><%=moment(specifications[i].created).format( 'MMM-DD-YYYY') %></td>
+                    <td><%=specifications[i].createdBy.name%></td>
                     <td>
-                        {{# if this.enabled}}
+                        <% if(specifications[i].enabled){ %>
                         <span class="tags">Enabled</span>
-                        {{else}}
+                        <% } else { %>
                         <span  class="tags"  style="background: rgb(202, 111, 129)">Disabled</span>
-                        {{/if}}
-                    </td>
-                    <td>
-                        {{# if this.filtering}}
-                        <span class="tags">Added</span>
-                        {{else}}
-                        <span  class="tags"  style="background: rgb(202, 111, 129)">Removed</span>
-                        {{/if}}
-                    </td>
-                    <td>
-                        <div id="{{this._id}}"> </div>
-                        {{# if this.enabled}}
-                        <a href="/products/specifications/makeDisabled/{{this._id}}" class="btn btn-primary btn-sm">Disable</a>
-                        {{else}}
-                        <a href="/products/specifications/makeEnabled/{{this._id}}" class="btn btn-primary btn-sm">Enable</a>
-                        {{/if}}
+                        <% } %>
 
-                        {{# if this.filtering}}
-                        <a href="/products/specifications/makeFalse/{{this._id}}" class="btn btn-primary btn-sm">Remove from Filtering </a>
-                        {{else}}
-                        <a href="/products/specifications/makeTrue/{{this._id}}" class="btn btn-primary btn-sm">Add to Filtering</a>
-                        {{/if}}
+                    </td>
+                    <td>
+                        <% if(specifications[i].filtering){ %>
+                        <span class="tags">Added</span>
+                        <% } else { %>
+                        <span  class="tags"  style="background: rgb(202, 111, 129)">Removed</span>
+                        <% } %>
+
+                    </td>
+                    <td>
+                        <div id="<%=specifications[i]._id%>"> </div>
+                        <% if(specifications[i].enabled){ %>
+                       
+                        <a href="/products/specifications/makeDisabled/<%=specifications[i]._id%>" class="btn btn-primary btn-sm">Disable</a>
+                        <% } else { %>
+                        <a href="/products/specifications/makeEnabled/<%=specifications[i]._id%>" class="btn btn-primary btn-sm">Enable</a>
+                         <% } %>
+
+                         <% if(specifications[i].filtering){ %>
+    
+                        <a href="/products/specifications/makeFalse/<%=specifications[i]._id%>" class="btn btn-primary btn-sm">Remove from Filtering </a>
+                        <% } else { %>
+                        <a href="/products/specifications/makeTrue/<%=specifications[i]._id%>" class="btn btn-primary btn-sm">Add to Filtering</a>
+                        <% } %>
+
                     </td>
                 </tr>
-                {{/if}}
-                {{/each}}
+                <% } %>
+
+                <% } %>
+
             </tbody>
         </table>
     </div>
@@ -76,3 +84,4 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>

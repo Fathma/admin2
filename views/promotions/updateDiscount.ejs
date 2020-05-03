@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="container-fluid">
 
 
@@ -25,7 +27,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="name" id="name"
-                                            value="{{discount.name}}">
+                                            value="<%=discount.name%>">
                                     </div>
                                 </div>
                                 <br>
@@ -37,18 +39,19 @@
                                     <div class="col-md-6">
                                         <select class="form-control inp" name="type" id="type" required>
                                             <option value="category"
-                                                {{# equality "category" discount.type}}selected{{/equality}}>Assigned to
+                                                <% if("category" == discount.type.toString()){%>selected<% } %>Assigned to
                                                 Category</option>
                                             <option value="subcategory"
-                                                {{# equality "subcategory" discount.type}}selected{{/equality}}>Assigned
+                                               <% if("subcategory" == discount.type.toString()){%>selected<% } %>>Assigned
                                                 to Sub Category</option>
                                             <option value="brand"
-                                                {{# equality "brand" discount.type}}selected{{/equality}}>Assigned to
+                                               <% if("brand" == discount.type.toString()){%>selected<% } %>>Assigned to
                                                 Brand</option>
                                             <option value="product"
-                                                {{# equality "product" discount.type}}selected{{/equality}}>Assigned to
+                                               <% if("product" == discount.type.toString()){%>selected<% } %>>Assigned to
                                                 Product</option>
-                                                 <option value="totalOrder" {{# equality "totalOrder" discount.type}}selected{{/equality}}>Assigned to Total Amount</option>
+                                                 <option value="totalOrder"
+                                                 <% if("totalOrder" == discount.type.toString()){%>selected<% } %>>Assigned to Total Amount</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,11 +62,11 @@
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        {{# if discount.usePercentage}}
+                                        <% if(discount.usePercentage){%>
                                         <input type="checkbox" name="usePercentage" id="usePercentage" checked>
-                                        {{else}}
+                                       <% } else { %>
                                         <input type="checkbox" name="usePercentage" id="usePercentage">
-                                        {{/if}}
+                                        <% } %>
                                     </div>
                                 </div>
                                 <br>
@@ -75,7 +78,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="discountPercent"
-                                            id="discountPercent" value="{{discount.discountPercent}}">
+                                            id="discountPercent" value="<%=discount.discountPercent%>">
                                     </div>
                                 </div>
                             
@@ -88,7 +91,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="discountAmount"
-                                            id="discountAmount" value="{{discount.discountAmount}}">
+                                            id="discountAmount" value="<%=discount.discountAmount%>">
                                     </div>
                                 </div>
                                 <br>
@@ -100,7 +103,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="maximunDiscountAmount"
-                                            id="maximunDiscountAmount" value="{{discount.maximunDiscountAmount}}">
+                                            id="maximunDiscountAmount" value="<%=discount.maximunDiscountAmount%>">
                                     </div>
                                 </div>
 
@@ -111,7 +114,7 @@
                                         <label class="lbl" for="days">Days</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control inp" name="days" id="days" value="{{discount.days}}">
+                                        <input type="text" class="form-control inp" name="days" id="days" value="<%=discount.days%>">
                                     </div>
                                 </div>
                                 <br>
@@ -121,7 +124,7 @@
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control inp" name="maxNumber" id="maxNumber" value="{{discount.maxNumber}}">
+                                        <input type="text" class="form-control inp" name="maxNumber" id="maxNumber" value="<%=discount.maxNumber%>">
                                     </div>
                                 </div>
                                 <br>
@@ -141,27 +144,29 @@
 
    
 
-{{# if discount.usePercentage}}
+<% if(discount.usePercentage){ %>
 <script>
     document.getElementById("discount_percentage").style.display = "block";
     document.getElementById("discount_amount").style.display = "none";
 </script>
-{{else}}
+<% }else { %>
 <script>
     document.getElementById("discount_percentage").style.display = "none";
     document.getElementById("discount_amount").style.display = "block";
 </script>
-{{/if}}
+<% } %>
 
-{{# if discount.couponrequired}}
+<% if(discount.couponrequired){ %>
+
 <script>
     document.getElementById("coupon-required").style.display = "block";
 </script>
-{{else}}
+<% }else { %>
 <script>
     document.getElementById("coupon-required").style.display = "none";
 </script>
-{{/if}}
+<% } %>
+
 
 
 </div>
@@ -205,3 +210,5 @@
     });
 });
 </script>
+
+<%- include('../partials/_footer') %>
