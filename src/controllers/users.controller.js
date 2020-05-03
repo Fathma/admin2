@@ -16,7 +16,7 @@ exports.loginPage = (req, res, next) => res.render('users/login.ejs')
 
 
 // User register route
-exports.registrationPage = (req, res) => res.render('users/register')
+exports.registrationPage = (req, res) => res.render('users/register.ejs')
 
 
 // Login form POST
@@ -38,7 +38,7 @@ exports.userregistration = async(req, res, next) => {
   if ( password.length < 4 ) errors.push({ msg: 'Password must be at least 4 characters' })
 
   if ( errors.length > 0 ) {
-    res.render('users/register', { errors, name, email, branch, password, password2, role })
+    res.render('users/register.ejs', { errors, name, email, branch, password, password2, role })
   } else {
     User.findOne({ email }).then(user => {
       if (user) {
@@ -79,14 +79,14 @@ exports.getUsers = (req, res)=>{
   User.find((err, users)=>{
     var count = 1;
     users.map( doc=> doc.count = count++ )
-    res.render('users/viewUserList',{users})
+    res.render('users/viewUserList.ejs',{users})
   })
 }
 
 
 // edit user update page
 exports.edit = (req, res)=>{
-  User.findOne({ _id: req.params.id }, (err, user)=> res.render('users/updateUser',{ user }))
+  User.findOne({ _id: req.params.id }, (err, user)=> res.render('users/updateUser.ejs',{ user }))
 }
 
 // save edit
@@ -101,7 +101,7 @@ exports.saveEdit = (req, res)=>{
 // show user profile
 exports.profile = async (req, res)=>{
   let user =await User.findOne({ _id: req.params.id })
-  res.render('users/profile', { user })
+  res.render('users/profile.ejs', { user })
 }
 
 
@@ -127,7 +127,7 @@ exports.changePassPage = (req, res)=>{
   try{
     const { user } = jwt.verify(req.params.token, keys.jwt.secret) 
     if(user){
-      res.render('users/setPass', { id: user._id, token: req.params.token })
+      res.render('users/setPass.ejs', { id: user._id, token: req.params.token })
     }
   }catch(err){
     res.send("Session Expired!")

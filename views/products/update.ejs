@@ -15,14 +15,14 @@
                             <form action="" id="update_product">
                                 <input type="hidden" class="form-control inp" name="serial" id="serial">
                                 <input type="hidden" class="form-control inp" name="_id" id="_id"
-                                    value="{{product._id}}">
+                                    value="<%=product._id%>">
                                 <div class="row">
                                     <div class="col-md-5 col5">
                                         <label class="lbl" for="products_invoice">Product Name</label>
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="products_invoice"
-                                            id="products_invoice" value="{{product.productName}}">
+                                            id="products_invoice" value="<%=product.productName%">
                                     </div>
                                 </div>
                                 <br>

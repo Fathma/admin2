@@ -8,8 +8,8 @@
     <form action="/users/SaveNewPass" method="POST">
      
       <div class="form-group has-feedback">
-        <input type="hidden" name="token" class="form-control" value="{{token}}" required >
-        <input type="hidden" name="_id" class="form-control" value="{{id}}" required >
+        <input type="hidden" name="token" class="form-control" value="<%=token%>" required >
+        <input type="hidden" name="_id" class="form-control" value="<%=id%>" required >
         <label for="password">Enter New Password:</label>
          <input type="password" name="password"  id="password" class="form-control"  required >
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>

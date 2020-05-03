@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="register-box">
   <div class="register-logo">
     <a href="index.html"><b>Admin</b>Registration</a>
@@ -8,31 +10,31 @@
 
     <form action="/users/register" id="admin" method="POST">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" name="name" value="{{name}}" required placeholder="Full Name">
+        <input type="text" class="form-control" name="name"  required placeholder="Full Name">
        
       </div>
       <div class="form-group has-feedback">
-        <input type="email" name="email" class="form-control" value="{{email}}" required placeholder="Email">
+        <input type="email" name="email" class="form-control"  required placeholder="Email">
        
       </div>
       <div class="form-group has-feedback">
-        <input type="text" name="branch" class="form-control" value="{{branch}}" required placeholder="Branch">
+        <input type="text" name="branch" class="form-control"  required placeholder="Branch">
         
       </div>
       <div class="form-group has-feedback">
-        <input type="password" name="password" id="password" class="form-control" value="{{password}}" required
+        <input type="password" name="password" id="password" class="form-control"  required
           placeholder="Password">
-          {{!-- <span  id="message" style="font-size: 14px"></span> --}}
+          <!-- {{!-- <span  id="message" style="font-size: 14px"></span> --}} -->
         
       </div>
       <div class="form-group has-feedback">
-        <input type="password" name="password2" id="password2" class="form-control" value="{{password2}}" required
+        <input type="password" name="password2" id="password2" class="form-control" required
           placeholder="Confirm Password">
           <span  id="message" style="font-size: 10px; font-weight: 700"></span>
        
       </div>
 
-      {{!-- role --}}
+      <!-- {{!-- role --}} -->
       <div class="form-group">
 
         <input type="text" name="role" list="roles" class="form-control" placeholder="Role">
@@ -103,3 +105,4 @@
     });
   });
 </script>
+<%- include('../partials/_footer') %>

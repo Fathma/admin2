@@ -225,7 +225,7 @@ exports.getProductUpdatePage = async(req, res)=>{
   }
   let pro = await Product.find()
 
-  res.render('products/update',{ product, feature_total: product.features.length, specifications, motherboard, ram, discount, Product:pro})
+  res.render('products/update.ejs',{ product, feature_total: product.features.length, specifications, motherboard, ram, discount, Product:pro})
 }
 
 
@@ -377,7 +377,7 @@ var find = (obj, cb) => {
 // returns Edit page from product info
 exports.getEditpage = (req, res, next) => {
   find({ _id: mongo.ObjectID(req.params.id) }, (docs)=>{
-    res.render('products/update', {
+    res.render('products/update.ejs', {
       title: 'Update Product',
       product: docs[0],
       num_feature: docs[0].features.length

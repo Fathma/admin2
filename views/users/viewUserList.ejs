@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
         <a href="#"><b>Registered</b>Admins</a>
@@ -18,23 +20,23 @@
             </thead>
             <tbody>
 
+            <% for(let i=0; i< users.length; i++){ %>
            
-          {{# each users}}
             <tr>
-                <td>{{this.count}}</td>
-                <td>{{this.email}}</td>
-                <td class="notranslate">{{this.name}}</td>
-                <td class="notranslate">{{this.branch}}</td>
-                <td class="notranslate">{{this.role}}</td>
-                <td >{{formatDate this.date}}</td>
+                <td><%=users[i].count%></td>
+                <td><%=users[i].email%></td>
+                <td class="notranslate"><%=users[i].name%></td>
+                <td class="notranslate"><%=users[i].branch%></td>
+                <td class="notranslate"><%=users[i].role%></td>
+                <td ><%=moment(users[i].date).format( 'MMM-DD-YYYY')%></td>
                 <td>
-                    <a href="/users/Edit/{{this._id}}" data-toggle="tooltip" 
+                    <a href="/users/Edit/<%=users[i]._id%>" data-toggle="tooltip" 
                         title="Edit info" class="btn btn-primary btn-sm" > Edit</a>
                     
                 </td>
             </tr>
            
-            {{/each}}
+            <% } %>
             </tbody>
         </table>
 
@@ -49,3 +51,4 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>

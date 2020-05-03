@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 
 
 <div class="container-fluid" style="width:100%;min-height: 700px">
@@ -23,34 +25,39 @@
             </tr>
             </thead>
             <tbody>
-            {{# each coupon}}
+            <% for(let i=0; i< coupon.length; i++){ %>
             <tr>
-                <td>{{this.count}}</td>
-                <td>{{this.name}}</td>
-                <td>{{this.code}}</td>
-                <td>{{# if this.usePercentageCoupon}}{{this.CouponPercent}}%{{else}}{{this.CouponAmount}}TK{{/if}}</td>
+                <td><%=coupon[i].count %></td>
+                <td><%=coupon[i].name %></td>
+                <td><%=coupon[i].code %></td>
                 
-                <td>{{formatDate this.created}}</td>
-                <td>{{this.createdBy.name}}</td>
-                {{# if this.enabled}}
+                <td><% if (coupon[i].usePercentageCoupon){ %>
+                    <%=coupon[i].CouponPercent %>%<% }else{ %><%=coupon[i].CouponAmount %>TK<% } %></td>
+                
+                <td><%=moment(coupon[i].created).format( 'MMM-DD-YYYY')%>  %></td>
+                <td><%=coupon[i].createdBy.name %></td>
+                <% if(coupon[i].enabled) { %>
                 <td ><span class="tags">Enabled</span></td>
-                {{else}}
+               <% } else { %>
                 <td><span class="tags" style="background: rgb(202, 111, 129)">Disabled</span></td>
-                {{/if}}
+                <% } %>
+
                 <td>
-                    <a data-toggle="tooltip" title="Edit info" class="btn btn-default" href="/promotions/CouponEdit/{{this._id}}"
+                    <a data-toggle="tooltip" title="Edit info" class="btn btn-default" href="/promotions/CouponEdit/<%=coupon[i]._id %>"
                         >Edit</a>
-                    {{# if this.enabled}}
-                    <a href="/promotions/changeCoupon/{{this._id}}/false" data-toggle="tooltip" title="Disable the coupon"
+                    <% if(coupon[i].enabled) { %>
+                    <a href="/promotions/changeCoupon/<%=coupon[i]._id %>/false" data-toggle="tooltip" title="Disable the coupon"
                         class="btn btn-default">Disable</a>
-                    {{else}}
-                    <a href="/promotions/changeCoupon/{{this._id}}/true" data-toggle="tooltip" title="enable the coupon"
+                   <% } else { %>
+                    <a href="/promotions/changeCoupon/<%=coupon[i]._id %>/true" data-toggle="tooltip" title="enable the coupon"
                         class="btn btn-default">Enable</a>
-                    {{/if}}
+                    <% } %>
+
                 </td>
             </tr>
 
-            {{/each}}
+            <% } %>
+
             </tbody>
         </table>
     </div>
@@ -64,3 +71,4 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>

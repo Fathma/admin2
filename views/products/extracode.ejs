@@ -1,0 +1,24 @@
+<%- include('../partials/_head') %>
+
+<%- include('../partials/_footer') %>
+<!-- product view discount -->
+<th>DISCOUNT</th>
+<td>
+                       
+    <% if((typeof products[i].discount).toString() !== 'undefined') { %>
+
+        Discount:
+        
+        <% if(products[i].discount.discountPercent) {%>
+            <%=products[i].discount.discountPercent%>%
+        <% } %>
+    
+        <% if(products[i].discount.discountAmount) { %>
+        <%=products[i].discount.discountAmount%>TK
+        <% } %>
+    
+        <br>
+        <%=products[i].discount.name%>
+    <% } %>              
+
+</td>

@@ -21,14 +21,14 @@ conn.once('open', function () {
 
 
 // returns page for discount registration
-exports.NewDiscountPage = ( req, res )=> res.render('promotions/newDiscount') 
+exports.NewDiscountPage = ( req, res )=> res.render('promotions/newDiscount.ejs') 
 
-exports.NewCouponPage = ( req, res )=> res.render('promotions/newCoupon')
+exports.NewCouponPage = ( req, res )=> res.render('promotions/newCoupon.ejs')
 
 
 exports.CouponEdit =async (req, res)=>{
     let coupon = await Coupon.findOne({ _id: req.params.id })
-    res.render('promotions/updateCoupon',{ coupon })
+    res.render('promotions/updateCoupon.ejs',{ coupon })
 }
 
 
@@ -49,7 +49,7 @@ exports.SaveCoupon =async (req, res) =>{
         req.body.createdBy= req.user
         await new Coupon(req.body).save().then((coupon)=>{
             req.flash('success_msg', 'Coupon has created successfully!')
-            res.redirect('/promotions/CouponList')
+            res.redirect('/promotions/CouponList.ejs')
         })
     }             
 
@@ -58,7 +58,7 @@ exports.SaveCoupon =async (req, res) =>{
 
 exports.updateDiscountPage = async (req, res)=>{
     let discount = await Discount.findOne({ _id: req.params.id })
-    res.render('promotions/updateDiscount',{ discount })
+    res.render('promotions/updateDiscount.ejs',{ discount })
 }
 
 
@@ -72,7 +72,7 @@ exports.updateBundlePage=async (req, res)=>{
     }
     bundle.total = total
     let product = await Product.find()
-    res.render('promotions/updateBundle',{ bundle, product })
+    res.render('promotions/updateBundle.ejs',{ bundle, product })
 }
 
 
@@ -152,7 +152,7 @@ exports.DiscountList = async (req, res)=>{
     let discount =await Discount.find()
     var count = 1;
     discount.map( doc=> doc.count = count++ )
-    res.render('promotions/listDiscount', { discount })
+    res.render('promotions/listDiscount.ejs', { discount })
 }
 
 
@@ -188,7 +188,7 @@ exports.BundleList = async (req, res)=>{
     let bundle =await Bundle.find()
     var count = 1;
     bundle.map( doc=> doc.count = count++ )
-    res.render('promotions/listBundle', { bundle })
+    res.render('promotions/listBundle.ejs', { bundle })
 }
 
 
@@ -196,7 +196,7 @@ exports.CouponList = async (req, res)=>{
     let coupon =await Coupon.find().populate('createdBy')
     var count = 1;
     coupon.map( doc=> doc.count = count++ )
-    res.render('promotions/listCoupon', { coupon })
+    res.render('promotions/listCoupon.ejs', { coupon })
 }
 
 

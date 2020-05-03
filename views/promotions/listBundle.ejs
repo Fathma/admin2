@@ -1,4 +1,4 @@
-
+<%- include('../partials/_head') %>
 
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
@@ -23,29 +23,29 @@
             </tr>
             </thead>
             <tbody>
-            {{# each bundle}}
+            <% for(let i=0; i< bundle.length; i++){ %>
             <tr>
-                <td>{{this.count}}</td>
-                <td>{{this.name}}</td>
-                <td>{{formatDate this.created}}</td>
-                {{# if this.enabled}}
+                <td><%=bundle[i].count%></td>
+                <td><%=bundle[i].name%></td>
+                <td><%= moment(bundle[i].created).format( 'MMM-DD-YYYY')%></td>
+                <% if(bundle[i].enabled) { %>
                 <td><span class="tags">Enabled</span></td>
-                {{else}}
+                <% } else { %>
                 <td><span  class="tags"  style="background: rgb(202, 111, 129)">Disabled</span></td>
-                {{/if}}
+                <% } %>
                 <td>
-                    <a data-toggle="tooltip" title="Edit info" class="btn btn-primary btn-sm" href="/promotions/updateBundle/{{this._id}}">Edit</a>
-                    {{# if this.enabled}}
-                    <a href="/promotions/changeBundle/{{this._id}}/false" data-toggle="tooltip" title="Disable the Bundle"
+                    <a data-toggle="tooltip" title="Edit info" class="btn btn-primary btn-sm" href="/promotions/updateBundle/<%=bundle[i]._id%>">Edit</a>
+                    <% if(bundle[i].enabled) { %>
+                    <a href="/promotions/changeBundle/<%=bundle[i]._id%>/false" data-toggle="tooltip" title="Disable the Bundle"
                         class="btn btn-primary btn-sm">Disable</a>
-                    {{else}}
-                    <a href="/promotions/changeBundle/{{this._id}}/true" data-toggle="tooltip" title="Enable the Bundle"
+                    <% } else { %>
+                    <a href="/promotions/changeBundle/<%=bundle[i]._id%>/true" data-toggle="tooltip" title="Enable the Bundle"
                         class="btn btn-primary btn-sm">Enable</a>
-                    {{/if}}
+                    <% } %>
                 </td>
             </tr>
 
-            {{/each}}
+            <% } %>
             </tbody>
         </table>
     </div>
@@ -59,3 +59,4 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>
