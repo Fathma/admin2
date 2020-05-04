@@ -1,3 +1,6 @@
+
+<%- include('../partials/_head') %>
+
 <div class="container-fluid">
 
 
@@ -17,7 +20,8 @@
 
                         <div class="well" style="background-color: white; ">
                             <form action="/promotions/SaveUpdateCoupon" id="cou1" method="POST">
-                                <input type="hidden" class="form-control inp" name="id" id="id" value="{{coupon._id}}">
+                                <input type="hidden" class="form-control inp" name="id" id="id" 
+                                value="<%=coupon._id%>">
                                 <div class="row">
                                     <div class="col-md-5 col5">
                                         <label class="lbl" for="name">Coupon Name<span style="color:red">*</span>
@@ -25,7 +29,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="name" id="name"
-                                            value="{{coupon.name}}">
+                                            value="<%=coupon.name%>">
                                     </div>
                                 </div>
                                 <br>
@@ -36,7 +40,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="code" id="code"
-                                            value="{{coupon.code}}">
+                                            value="<%=coupon.code%>">
 
                                     </div>
                                 </div>
@@ -48,11 +52,13 @@
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        {{# if coupon.usePercentageCoupon}}
-                                        <input type="checkbox" name="usePercentageCoupon" id="usePercentageCoupon" checked>
-                                        {{else}}
-                                        <input type="checkbox" name="usePercentageCoupon" id="usePercentageCoupon">
-                                        {{/if}}
+                                        <% if(coupon.usePercentageCoupon){ %>
+                                        <input type="checkbox" name="usePercentageCoupon" 
+                                        id="usePercentageCoupon" checked>
+                                        <% } else { %>
+                                        <input type="checkbox" name="usePercentageCoupon" 
+                                        id="usePercentageCoupon">
+                                        <% } %>
                                     </div>
                                 </div>
                                 <br>
@@ -64,7 +70,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="CouponPercent"
-                                            id="CouponPercent" value="{{coupon.CouponPercent}}">
+                                            id="CouponPercent" value="<%=coupon.CouponPercent%>">
                                     </div>
                                 </div>
                         
@@ -77,7 +83,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="CouponAmount"
-                                            id="CouponAmount" value="{{coupon.CouponAmount}}">
+                                            id="CouponAmount" value="<%=coupon.CouponAmount%>">
                                     </div>
                                 </div>
                                 <br>
@@ -94,22 +100,22 @@
             </div>
         </div>
     </div>
+<% if(coupon.usePercentageCoupon){ %>
 
-{{# if coupon.usePercentageCoupon}}
 <script>
     document.getElementById("Coupon_percentage").style.display = "block";
      document.getElementById("Coupon_percentage").required = true
     document.getElementById("Coupon_amount").style.display = "none";
     document.getElementById("Coupon_amount").required = false
 </script>
-{{else}}
+<% } else { %>
 <script>
     document.getElementById("Coupon_percentage").style.display = "none";
     document.getElementById("Coupon_percentage").required = false
     document.getElementById("Coupon_amount").style.display = "block";
     document.getElementById("Coupon_amount").required = true
 </script>
-{{/if}}
+<% } %>
 
 </div>
 <script>
@@ -144,3 +150,5 @@
     });
 });
 </script>
+
+<%- include('../partials/_footer') %>
