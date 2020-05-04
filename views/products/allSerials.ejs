@@ -1,3 +1,6 @@
+
+<%- include('../partials/_head') %>
+
 <div class="container-fluid" style="width:100%;min-height: 700px">
 <div class="register-logo">
             <a href="#"><b>Product</b>Details</a>
@@ -26,19 +29,23 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each serials}}
+                <% for(let i=0; i< serials.length; i++){ %>
+
                 <tr>
-                    <td>{{this.count}}</td>
-                    <td>{{this.sid}}</td>
-                    <td>{{this.pid.name}}</td>
-                    <td>{{this.number}}</td>
-                    <td><a href="/purchase/localPurchase/{{this.lp.number}}">{{this.lp.number}}</a></td>
-                    <td><a href="/orders/ViewInvoice/{{this.invoice._id}}">{{this.invoice.invoiceId}}</a></td>
-                    <td>{{this.status}}</td>
+                    <td><%=serials[i].count%></td>
+                    <td><%=serials[i].sid%></td>
+                    <td><%=serials[i].pid.name%></td>
+                    <td><%=serials[i].number%></td>
+                    <td><a href="/purchase/localPurchase/<%=serials[i].lp.number%>"><%=serials[i].lp.number%></a></td>
+                    <td><a href="/orders/ViewInvoice/<%=serials[i].invoice._id%>"><%=serials[i].invoice.invoiceId%></a></td>
+                    <td><%=serials[i].status%></td>
                 </tr>
-                {{/each}}
+
+                <% } %>
+
             </tbody>
         </table>
     </div>
 </div>
 <br>
+<%- include('../partials/_footer') %>
