@@ -1,5 +1,7 @@
     
 
+<%- include('../partials/_head') %>
+
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
         <a href="#"><b>Products</b>NeverPurchased</a>
@@ -19,13 +21,14 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each products}}
+            <% for(let i=0; i< products.length; i++){ %>
+
                 <tr>
-                    <td>{{this.count}}</td>
-                    <td>{{this.model}}</td>
-                    <td><a href="/products/Update/{{this._id}}" class="btn btn-primary btn-sm ">View</a></td></td>
+                    <td><%=products[i].count%></td>
+                    <td><%=products[i].model%></td>
+                    <td><a href="/products/Update/<%=products[i]._id%>" class="btn btn-primary btn-sm ">View</a></td></td>
                 </tr> 
-                {{/each}}
+            <% } %>
             </tbody>
         </table>
     </div>
@@ -38,3 +41,5 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>
+

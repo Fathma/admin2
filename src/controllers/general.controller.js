@@ -119,7 +119,7 @@ exports.bestSellers= async(req, res) => {
   orderedProducts(unique=>{
     let count = 1;
     unique.map( doc=> doc.count = count++ )
-    res.render('reports/productbyOrder',{ products: unique })
+    res.render('reports/productbyOrder.ejs',{ products: unique })
   })
 }
 
@@ -137,7 +137,7 @@ exports.productNeverSold = async(req, res) => {
     })
     var count = 1;
     productleft.map( doc=> doc.count = count++ )
-    res.render('reports/neverSold',{ products:productleft })
+    res.render('reports/neverSold.ejs',{ products:productleft })
   })
 }
 
@@ -166,7 +166,7 @@ function processProfitByProduct (serial, res){
   var count = 1;
   serial.map( doc=> doc.count = count++ )
 
-  res.render('reports/profitSerialWise', {serial,cost, earning, profit})
+  res.render('reports/profitSerialWise.ejs', {serial,cost, earning, profit})
 }
 
 
