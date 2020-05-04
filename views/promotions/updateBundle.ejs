@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="container-fluid">
 
     <div class="box">
@@ -16,7 +18,7 @@
 
                         <div class="well" style="background-color: white; ">
                             <form action="/promotions/SaveUpdateBundle" method="POST">
-                                <input type="hidden" class="form-control inp" name="id" id="id" value="{{bundle._id}}">
+                                <input type="hidden" class="form-control inp" name="id" id="id" value="<%=bundle._id%>">
                                 <div class="row">
                                     <div class="col-md-5 col5">
                                         <label class="lbl" for="name">Bundle Name
@@ -24,29 +26,17 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control inp" name="name" id="name"
-                                            value="{{bundle.name}}">
+                                            value="<%=bundle.name%>">
                                     </div>
                                 </div>
                                 <br>   
-
-                                {{!-- <div class="row" id="discount_amount">
-                                    <div class="col-md-5 col5">
-                                        <label class="lbl" for="sellingPrice">Discount Amount
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control inp" name="sellingPrice"
-                                            id="sellingPrice" value="{{bundle.price}}">
-                                    </div>
-                                </div>
-                                <br> --}}
             
                                 <div class="row">
                                     <div class="col-md-5 col5">
                                         <label class="lbl" for="days">Days</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control inp" name="days" id="days" value="{{bundle.days}}">
+                                        <input type="text" class="form-control inp" name="days" id="days" value="<%=bundle.days%>">
                                     </div>
                                 </div>
                                 <br>
@@ -80,21 +70,16 @@
                             </div>
 
                             <div class="row">
+                                <% if((typeof bundle.image).toString() !== "undefined"){ %>
+                               
                                 
-                                {{# if  bundle.image}}
-                                {{!-- <div class="col-sm-3"> --}}
                                     <center>
-                                        <img src="{{bundle.image}}" alt=""
+                                        <img src="<%=bundle.image%>" alt=""
                                         style="background-image: image(); width:100px; height:100px;">  
                                     </center>
                                    
-                                    {{!-- <form action="/products/img/detete" method="POST">
-                                        <input type="hidden" name="id" id="id" value="{{../product._id}}">
-                                        <input type="hidden" name="img" id="img" value="{{this}}">
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form> --}}
-                                {{!-- </div> --}}
-                                {{/if}}
+                                <% } %>
+                                
                                
                             </div>
                             <div class="row">
@@ -111,7 +96,7 @@
                                         </label>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="hidden" name="id" id="id" value="{{ bundle._id }}">
+                                        <input type="hidden" name="id" id="id" value="<%= bundle._id %>">
                                         <input type="file" name="image" id="image"
                                             accept="image/png, image/jpeg" >
                                     </div>
@@ -143,7 +128,8 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
                         <div class="well">
-                            {{# if bundle }}
+                            <% if((typeof bundle).toString() !== 'undefined'){%>
+                            
                             <form action="/promotions/addProduct" method="POST">
                                 <div class="row">
                                     <div class="col-md-5 col5">
@@ -151,11 +137,11 @@
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="hidden" name="id" id="id" value="{{ bundle._id }}">
+                                        <input type="hidden" name="id" id="id" value="<%= bundle._id %>">
                                         <select name="product" class="form-control inp" id="product">
-                                            {{# each product}}
-                                            <option value="{{this._id}}">{{this.productName}}</option>
-                                            {{/each}}
+                                            <% for(let i=0; i< product.length; i++){ %>
+                                            <option value="<%=product[i]._id%>"><%=product[i].productName%></option>
+                                            <% } %>
                                         </select>
                                     </div>
                                 </div>
@@ -175,26 +161,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{# each bundle.products}}
-
+                                    <% for(let i=0; i< bundle.products.length; i++){ %>
                                     <tr>
 
                                         <td>
-                                            {{this.productName}}
+                                            <%=bundle.products[i].productName%>
                                         </td>
 
                                         <td>
-                                            <a href="/promotions/BundleProducts/delete/{{../bundle._id}}/{{this._id}}"
+                                            <a href="/promotions/BundleProducts/delete/<%=bundle._id%>/<%=bundle.products[i]._id%>"
                                                 class="btn btn-danger btn-sm">Delete</a>
                                         </td>
                                     </tr>
-                                    {{/each}}
+                                    <% } %>
                                 </tbody>
                             </table>
-                            {{else}}
+                            
+                            <% } else { %>
                             <p>You need to complete product registration with image in specification section.
                             </p>
-                            {{/if}}
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -204,7 +190,7 @@
  <div class="box">
         <div id="#price"></div>
         <button class="collapsible">
-            <li class="fa fa-info panel-icon" style="padding: 5px;"></li><span>Price</span><span
+            <li class="fa fa-info panel-icon" style="padding: 5px;"></li><span>PRICE</span><span
                 style="float:right" id="sp">+</span>
         </button>
 
@@ -217,13 +203,15 @@
 
                         <div class="well" style="background-color: white; ">
                             <form action="/promotions/SaveUpdateBundlePrice" method="POST">
-                                <input type="hidden" class="form-control inp" name="id" id="id" value="{{bundle._id}}">
+                                <input type="hidden" class="form-control inp" name="id" id="id" 
+                                value="<%=bundle._id%>">
                                     <div class="row">
                                     <div class="col-md-5 col5">
                                         <label class="lbl" for="total">Total Selling price</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control inp" name="total" id="total" value="{{bundle.total}}">
+                                        <input type="text" class="form-control inp" name="total" id="total"
+                                         value="<%=bundle.total%>">
                                     </div>
                                 </div>
                                 <br>
@@ -233,7 +221,8 @@
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control inp" name="sellingPrice" id="sellingPrice" value="{{bundle.sellingPrice}}" required>
+                                        <input type="text" class="form-control inp" name="sellingPrice" 
+                                        id="sellingPrice" value="<%=bundle.sellingPrice%>" required>
                                     </div>
                                 </div>
                                 <br>
@@ -250,20 +239,20 @@
             </div>
         </div>
     </div>
-
-{{# if bundle.usePercentage}}
+<% if((typeof bundle.usePercentage).toString() !== 'undefined'){%>
 <script>
     document.getElementById("discount_percentage").style.display = "block";
     document.getElementById("discount_amount").style.display = "none";
 </script>
-{{else}}
+<% } else { %>
 <script>
     document.getElementById("discount_percentage").style.display = "none";
     document.getElementById("discount_amount").style.display = "block";
 </script>
-{{/if}}
+<% } %>
 
 
 
 
 </div>
+<%- include('../partials/_footer') %>
