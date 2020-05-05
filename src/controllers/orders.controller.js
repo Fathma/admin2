@@ -38,7 +38,7 @@ exports.showOrdersPage = (req, res) => {
       doc.count = count++ 
       doc.users = doc.users[0]
     })
-    res.render('orders/orders', { orders })
+    res.render('orders/orders.ejs', { orders })
   })
 }
 
@@ -57,7 +57,7 @@ exports.OrdersByMonthPage = async(req, res) => {
   var count = 1;
   orderlist.map( doc=> doc.count = count++ )
 
-  res.render('orders/orders', { orders: orderlist })
+  res.render('orders/orders.ejs', { orders: orderlist })
 }
 
 
@@ -133,7 +133,7 @@ exports.ViewInvoice = (req, res) => {
         }
       }
      
-      res.render('orders/viewInvoice', { invoice: rs })
+      res.render('orders/viewInvoice.ejs', { invoice: rs })
     })
 }
 
@@ -163,7 +163,7 @@ exports.showOrderDetails = (req, res) => {
       console.log(rs[0])
 
      
-      res.render('orders/orderDetails', { order: rs[0], or_id: req.params.id })
+      res.render('orders/orderDetails.ejs', { order: rs[0], or_id: req.params.id })
     }
   })
 }
@@ -234,7 +234,7 @@ exports.newOrders = (req, res)=>{
       doc.count = count++ 
       doc.users = doc.users[0]
     })
-    res.render('orders/orders', { orders })
+    res.render('orders/orders.ejs', { orders })
   })
   // Order.find({ currentStatus: 'New Order'})
   // .populate('user')

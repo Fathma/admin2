@@ -10,7 +10,7 @@ const Email = require('../../config/email')
 
 
 // fires emailall page 
-exports.emailAllPage = ( req, res )=> res.render('customer/emailAll')
+exports.emailAllPage = ( req, res )=> res.render('customer/emailAll.ejs')
 
 
 // view list of customers
@@ -31,7 +31,7 @@ exports.viewListOfCustomers =async (req, res) => {
     var count = 1;
     new_cus.map( doc=> doc.count = count++ )
 
-    res.render('customer/customerlist',{ customer: new_cus }) 
+    res.render('customer/customerlist.ejs',{ customer: new_cus }) 
 };
 
 
@@ -62,19 +62,19 @@ exports.getprofile =async (req, res)=>{
         count++
     })
 
-    res.render('customer/profile', { customer, posts, orders, wishlists })
+    res.render('customer/profile.ejs', { customer, posts, orders, wishlists })
 }
 
 
 // blocks a customer
 exports.Block = async ( req, res )=>{
     await Customerr.update({ _id: req.params.id },{ $set: { status: false }})
-    res.redirect('/customers/RegisteredCustomer')
+    res.redirect('/customers/RegisteredCustomer.ejs')
 }
 
 
 // unblocks a customer
 exports.Unblock = async ( req, res )=>{
     await Customerr.update({ _id: req.params.id },{ $set: { status: true }})
-    res.redirect('/customers/RegisteredCustomer')
+    res.redirect('/customers/RegisteredCustomer.ejs')
 }

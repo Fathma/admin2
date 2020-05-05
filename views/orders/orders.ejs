@@ -1,3 +1,4 @@
+<%- include('../partials/_head') %>
     
 
 <div class="container-fluid" style="width:100%;min-height: 700px">
@@ -32,21 +33,24 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each orders}}
+            <% for(let i=0; i< orders.length; i++){ %>
+
+               
                 <tr>
-                    <td>{{this.count}}</td>
-                    <td>{{this.users.profile.name}}</td>
-                    <td>{{this.currentStatus}}</td>
-                    <td>{{this.totalAmount}}TK</td>
-                    <td>{{formatDate this.created}}</td>
-                    <td>{{formatDate this.lastModified }}</td>
-                    <td><a href="/orders/orderDetails/{{this._id}}" data-toggle="tooltip" data-placement="top"
+                    <td><%=orders[i].count%></td>
+                    <td><%=orders[i].users.profile.name%></td>
+                    <td><%=orders[i].currentStatus%></td>
+                    <td><%=orders[i].totalAmount%>TK</td>
+                    <td><%=moment(orders[i].created).format( 'MMM-DD-YYYY') %></td>
+                    <td><%=moment(orders[i].lastModified).format( 'MMM-DD-YYYY')  %></td>
+                    <td><a href="/orders/orderDetails/<%=orders[i]._id%>" data-toggle="tooltip" data-placement="top"
                             title="Edit" style="padding: 0%" class="btn btn-primary btn-sm">
                             Show Details
                         </a>
                     </td>
                 </tr>
-                {{/each}}
+            <% } %>
+
             </tbody>
         </table>
     </div>
@@ -66,3 +70,4 @@
     });
 
 </script>
+<%- include('../partials/_footer') %>

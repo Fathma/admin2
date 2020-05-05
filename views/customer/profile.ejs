@@ -1,0 +1,125 @@
+<%- include('../partials/_head') %>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+        <div class="well profile" style="min-width: 100%;">
+            <div class="col-sm-12">
+                <div class="col-xs-12 col-sm-8">
+                    <h2> <%=customer.profile.name%> </h2>
+                    <p><strong>Email: </strong> <%=customer.email%> </p>
+                    <hr>
+                    <% for(let i=0; i< customer.shippingAddress.length; i++){ %>
+
+                    <h4><strong>Address <%=customer.shippingAddress[i].count%> </strong></h4> 
+                    <p><strong>Name: </strong> <%=customer.shippingAddress[i].shippingAddressName%></p> 
+                    <p><strong>Contact: </strong> <%=customer.shippingAddress[i].shippingAddressPhone%></p> 
+                    <p><strong>Address 1: </strong> <%=customer.shippingAddress[i].shippingAddress1%></p>
+                    <p><strong>Address 2: </strong> <%=customer.shippingAddress[i].shippingAddress1%></p>
+                    <p><strong>City: </strong> <%=customer.shippingAddress[i].shippingAddressCity%></p>
+                    <p><strong>District: </strong> <%=customer.shippingAddress[i].shippingAddressDistrict%></p>
+                    <p><strong>Division: </strong> <%=customer.shippingAddress[i].shippingAddressDivision%></p>
+                    <p><strong>Postal Code: </strong> <%=customer.shippingAddress[i].shippingAddressPostalCode%></p>
+                    <p><strong>Country: </strong> <%=customer.shippingAddress[i].shippingAddressCountry%></p>
+                    <hr>
+                   
+                    <% } %>
+                   
+                </div>
+                <div class="col-xs-12 col-sm-4 text-center">
+                    <figure>
+                        <img src="<%=customer.profile.picture%>" alt="" class="img-circle img-responsive">
+                        
+                    </figure>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+<div class="row">
+  
+    <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+        <div class="well profile" style="min-width: 100%;">
+            <div class="col-sm-12 ">
+                <h3>Order History </h3>
+                <% if(orders.length !== 0){%>
+                <table  class="table table-bordered">
+                    <th>Order ID</th>
+                    <th>Total Amount</th>
+                    <th>Order Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <% for(let i=0; i< orders.length; i++){ %>
+                    <tr>
+                        <td><%=orders[i].orderId%></td>
+                        <td><%=orders[i].totalAmount%>TK</td>
+                        <td><%=orders[i].currentStatus%></td>
+                        <td><%=moment(orders[i].created).format( 'MMM-DD-YYYY') %></td>
+                        <td><a href="/orders/orderDetails/<%=orders[i]._id%>">Details</a></td>
+                    </tr>
+                    <% } %>
+                </table>
+                <% } else { %>
+                No Order History
+                <% } %> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+        <div class="well profile" style="min-width: 100%;">
+            <div class="col-sm-12 ">
+                <h3>Wishlist</h3>
+                <% if(wishlists.length !== 0 ){%>
+                <table  class="table table-bordered">
+                    <th>Products</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <% for(let i=0; i< wishlists.items.length; i++){ %>
+                    <tr>
+                        <td><%=wishlists.items[i].product.name%></td>
+                        <td><%=wishlists.items[i].quantity%></td>
+                        <td><%= wishlists.items[i].price%>TK</td>
+                        <td><%=moment(wishlists.items[i].addedDate).format( 'MMM-DD-YYYY') %></td>
+                    </tr>
+                    <% } %>
+                </table>
+                <% } else { %>
+                No posts
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+        <div class="well profile" style="min-width: 100%;">
+            <div class="col-sm-12 ">
+                <h3>Posts </h3>
+                
+                <% if(posts.length !== 0){%>
+                <table  class="table table-bordered">
+                    <th>Title</th>
+                    <th>Text</th>
+                    <th>Date</th>
+                    <% for(let i=0; i< posts.length; i++){ %>
+                    <tr>
+                        <td><%=posts[i].name%></td>
+                        <td><%=posts[i].text%></td>
+                        <td><%= moment(posts[i].createDate).format( 'MMM-DD-YYYY')%></td>
+                    </tr>
+                    <% } %>
+                </table>
+                <% } else { %>
+                No posts
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/_footer') %>

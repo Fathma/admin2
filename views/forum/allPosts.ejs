@@ -1,0 +1,74 @@
+<%- include('../partials/_head') %>
+
+<div class="container-fluid" style="width:100%;min-height: 700px">
+    <div class="register-logo">
+        <a href="#"><b>Post</b>List</a>
+    </div>
+
+    <div style="background-color: white">
+        <table id="ptable" style="width:100%" class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>USER</th>
+                <th>POST CATEGORY</th>
+                <th>TITLE</th>
+                <th>LIKES</th>
+                <th>COMMENTS</th>
+                <th>TEXT</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(let i=0; i< posts.length; i++){ %>
+
+            
+            <tr>
+                <td><%=posts[i].count%></td>
+                <td><%=posts[i].user.name%></td>
+                <td><%=posts[i].postCategory.name%></td>
+                <td><%=posts[i].name%></td>
+                <td><%=posts[i].total_likes%></td>
+                <td><%=posts[i].total_comments%></td>
+                <td><%=posts[i].text%></td>
+                <td>
+                    <% if(posts[i].status.toString() == "Active"){ %>
+                    <span class="tags">Active</span>
+                    <% } %>
+                    <% if(posts[i].status.toString() ==  "Blocked"){ %>
+                    <span class="tags" style="background: rgb(202, 111, 129)" >Blocked</span>
+                    <% } %>
+                    <% if(posts[i].status.toString() ==  "New"){ %>
+                    <span class="tags" style="background: rgb(112, 190, 226)">New</span>
+                    <% } %>
+                </td>
+                <td>
+                    <% if(posts[i].status.toString() ==  "Active"){ %>
+                    <a href="/forum/posts/block/<%=posts[i]._id%>" class="btn btn-primary btn-sm ">Block <%=posts[i]._id%></a>
+                    <% } %>
+
+                    <% if(posts[i].status.toString() ==  "Blocked"){ %>
+                    <a href="/forum/posts/active/<%=posts[i]._id%>" class="btn btn-primary btn-sm">Active</a>
+                    <% } %>
+
+                    <% if(posts[i].status.toString() ==  "new"){ %>
+                    <a href="/forum/posts/active/<%=posts[i]._id%>" class="btn btn-primary btn-sm">Active</a>
+                    <a href="/forum/posts/block/<%=posts[i]._id%>" class="btn btn-primary btn-sm ">Block</a>
+                    <% } %>
+                </td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<script>
+    $(document).ready(function() {
+        $('#ptable').DataTable( {
+            stateSave: true
+        } );
+    } );
+</script>
+<%- include('../partials/_footer') %>

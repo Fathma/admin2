@@ -1,0 +1,60 @@
+<%- include('../partials/_head') %>
+
+<div class="container-fluid" style="width:100%;min-height: 700px">
+
+    <div class="register-logo">
+        <a href="#"><b>Registered</b>Customers</a><br>
+        <a class="btn btn-primary btn-sm"  href="/customers/email/page">Email All</a>
+    </div>
+    <% if(customer) { %>
+    <div style="background-color: white">
+        <table id="ptable" style="width:100%" class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>EMAIL</th>
+                <th>NAME</th>
+                <th>CONTACT</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(let i=0; i< customer.length; i++){ %>
+            <tr>
+                <td><%=customer[i].count%></td>
+                <td><%=customer[i].email%></td>
+                <td><%=customer[i].profile.name%></td>
+                <td><%=customer[i].contact%></td>
+                <td><% if(customer[i].status){ %><span  class="tags">Active</span><% } else { %><span  class="tags"  style="background: rgb(202, 111, 129)">Blocked</span><% } %></td>
+                <td>
+                    <a href="/customers/profile/<%=customer[i]._id%>" class="btn btn-primary btn-sm">Details</a>
+                            <% if(customer[i].status) { %>
+                            <a href="/customers/block/<%=customer[i]._id%>" class="btn btn-primary btn-sm">Block</a>
+                            <% } else { %>
+                            <a href="/customers/unblock/<%=customer[i]._id%>" class="btn btn-primary btn-sm">Unblock</a>
+                            <% } %>
+                </td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+    <% } else { %>
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+            <h2 id="search-result" onclick="searchPartial()">No Item in found</h2>
+        </div>
+    </div>
+    <% } %>
+
+</div>
+<br>
+<script>
+    $(document).ready(function() {
+        $('#ptable').DataTable( {
+            stateSave: true
+        } );
+    } );
+</script>
+<%- include('../partials/_footer') %>

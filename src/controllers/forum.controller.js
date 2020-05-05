@@ -17,25 +17,25 @@ exports.getPosts = ( req, res ) =>{
             post.total_comments = post.comments.length
         })
 
-     res.render('forum/allPosts', { posts })
+     res.render('forum/allPosts.ejs', { posts })
     })
 }
 
 // blocks a post
 exports.blockPost = ( req, res )=>{
     Post.update({ _id: req.params.id },{ $set:{ status: 'Blocked' } }, (err, post)=>{
-        res.redirect('/forum/posts')
+        res.redirect('/forum/posts.ejs')
     })
 }
 
 // makes a post active
 exports.activePost = async ( req, res )=>{
     await Post.update({ _id: req.params.id },{ $set:{ status: 'Active' } })
-    res.redirect('/forum/posts')
+    res.redirect('/forum/posts.ejs')
 }
 
 // shows all the posts with status 'new'
 exports.viewNewPost = async (req, res)=>{
     await Post.find({ status: 'New'})
-    res.render('forum/allPosts', { posts })
+    res.render('forum/allPosts.ejs', { posts })
 }

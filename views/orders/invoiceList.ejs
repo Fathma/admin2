@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
         <a href="#"><b>Invoice</b>List</a>
@@ -23,18 +25,20 @@
             </tr>
             </thead>
             <tbody>
-          {{# each invoices}}
+            <% for(let i=0; i< invoices.length; i++){ %>
+
+          
             <tr>
-                <td>{{this.count}}</td>
-                <td>{{this.invoiceId}}</td>
-                <td>{{this.order.orderId}}</td>
-                {{!-- <td>{{this.order.created}}</td> --}}
-                <td>{{this.order.currentStatus}}</td>
-                <td>{{this.order.totalAmount}}TK</td>
-                <td><a href="/orders/ViewInvoice/{{this._id}}" data-toggle="tooltip" data-placement="top" title="View details"  class="btn btn-primary btn-sm">View</a></td>
+                <td><%=invoices[i].count%></td>
+                <td><%=invoices[i].invoiceId%></td>
+                <td><%=invoices[i].order.orderId%></td>
+                <td><%=invoices[i].order.currentStatus%></td>
+                <td><%=invoices[i].order.totalAmount%>TK</td>
+                <td><a href="/orders/ViewInvoice/<%=invoices[i]._id%>" data-toggle="tooltip" data-placement="top" title="View details"  class="btn btn-primary btn-sm">View</a></td>
             </tr>
            
-            {{/each}}
+        <% } %>
+
             </tbody>
         </table>
 
@@ -49,3 +53,4 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>
