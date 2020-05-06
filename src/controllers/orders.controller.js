@@ -94,7 +94,7 @@ exports.addSerialToProductPage = (req, res) => {
     Product.findOne({ _id: req.params.pid }, async function(err, docs) {
 
       let serial = await Serial.find({ $and: [{ pid: req.params.pid} , {status: 'In Stock'}] })
-      res.render('orders/setSerialInOrder', {
+      res.render('orders/setSerialInOrder.ejs', {
         order: order[0],
         model: req.params.pid,
         model_name: req.params.pmodel,

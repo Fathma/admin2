@@ -1,4 +1,5 @@
     
+<%- include('../partials/_head') %>
 
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
@@ -19,14 +20,15 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each products}}
+            <% for(let i=0; i< products.length; i++){ %>
+
                 <tr>
-                    <td>{{this.count}}</td>
-                    <td>{{this.product.model}}</td>
-                    <td>{{this.quantity}}</td>
-                    <td>{{this.price}}TK</td>
+                    <td><%=products[i].count%></td>
+                    <td><%=products[i].product.model%></td>
+                    <td><%=products[i].quantity%></td>
+                    <td><%=products[i].price%>TK</td>
                 </tr> 
-                {{/each}}
+            <% } %>
             </tbody>
         </table>
     </div>
@@ -39,4 +41,6 @@
         } );
     } );
 </script>
+<%- include('../partials/_footer') %>
+
 

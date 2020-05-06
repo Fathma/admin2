@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="row">
 
         <div>
@@ -17,45 +19,45 @@
                     <tbody>
                         <tr>
                             <td><b> Order ID:</b></td>
-                            <td>{{invoice.order.orderId}}</td>
+                            <td><%=invoice.order.orderId%></td>
                             <td><b>Invoice No:</b></td>
-                            <td>{{invoice.invoiceId}}</td>
+                            <td><%=invoice.invoiceId%></td>
                         </tr>
                         <tr>
                             <td><b>Customer:</b></td>
-                            <td>{{invoice.order.user.profile.name}}</td>
+                            <td><%=invoice.order.user.profile.name%></td>
                             <td><b>E-Mail:</b></td>
-                            <td>{{invoice.order.user.email}}</td>
+                            <td><%=invoice.order.user.email%></td>
                         </tr>
                         <tr>
                             <td><b>Name:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddressName}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddressName%></td>
                             <td><b>Contact:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddressPhone}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddressPhone%></td>
                         </tr>
                         <tr>
                             <td><b>Address:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddress1}},{{invoice.order.shippingAddress.shippingAddress2}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddress1%>,<%=invoice.order.shippingAddress.shippingAddress2%></td>
                             <td><b>District:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddressDistrict}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddressDistrict%></td>
                         </tr>
                         <tr>
                             <td><b>Division:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddressDivision}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddressDivision%></td>
                             <td><b>City:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddressCity}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddressCity%></td>
                         </tr>
                         <tr>
                             <td><b>Postal Code:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddressPostalCode}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddressPostalCode%></td>
                             <td><b>Country:</b></td>
-                            <td>{{invoice.order.shippingAddress.shippingAddressCountry}}</td>
+                            <td><%=invoice.order.shippingAddress.shippingAddressCountry%></td>
                         </tr>
                         <tr>
                             <td><b>Payment Method:</b></td>
-                            <td>{{invoice.order.paymentMethod}}</td>
+                            <td><%=invoice.order.paymentMethod%></td>
                             <td><b>Payment Method:</b></td>
-                            <td>{{formatDate invoice.created}}</td>
+                            <td><%= moment(invoice.created).format( 'MMM-DD-YYYY') %></td>
                         </tr>
                     </tbody>
                 </table>
@@ -74,39 +76,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{# each invoice.order.cart}}
+                                <% for(let i=0; i< invoice.order.cart.length; i++){ %>
+
+                                
                                 <tr>
-                                    <td>{{this.num}}</td>
+                                    <td><%= invoice.order.cart[i].num%></td>
                                     <td class="text-left">
-                                        <a href="#">{{this.product.name}}</a>
+                                        <a href="#"><%= invoice.order.cart[i].product.name%></a>
                                         <br>
-                                        {{# if this.product.warranty}}
+                                        <% if(invoice.order.cart[i].product.warranty) { %>
                                         <p><b>Warranty:</b>
-                                            {{this.product.warranty}}
+                                            <%= invoice.order.cart[i].product.warranty%>
                                            
                                         <br>
-                                         {{/if}}</p>
-                                        <p>SN:{{# each this.serials}}
-                                            {{# if this.number}}
-                                             {{this.number}} 
-                                             {{else}}
-                                             {{this.sid}} 
-                                             {{/if}}
-                                             {{/each}}</p>
+                                        <% } %></p>
+
+                                        <p>SN:
+                                        <% for(let j=0; j< invoice.order.cart[i].serials.length; j++){ %>
+                                        
+                                            <% if(invoice.order.cart[i].serials[j].number){ %>
+                                             <%=invoice.order.cart[i].serials[j].number%> 
+                                             <% }else { %>
+                                             <%=invoice.order.cart[i].serials[j].sid%>
+                                             <% } %>
+                                             <% } %></p>
                                         <br>
                                     </td>
-                                    <td class="text-right">{{ this.quantity}}</td>
-                                    <td class="text-right">{{ this.unitPrice}}TK</td>
-                                    <td class="text-right">{{ this.price}}TK</td>
+                                    <td class="text-right"><%= invoice.order.cart[i].quantity%></td>
+                                    <td class="text-right"><%= invoice.order.cart[i].unitPrice%>TK</td>
+                                    <td class="text-right"><%= invoice.order.cart[i].price%>TK</td>
                                 </tr>
-                                {{/each}}
+                                <% } %>
                                 <tr>
                                     <td colspan="4" class="text-right">Shipping Cost:</td>
-                                    <td class="text-right">{{ invoice.order.shippingCharge}}TK</td>
+                                    <td class="text-right"><%= invoice.order.shippingCharge%>TK</td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-right">Total:</td>
-                                    <td class="text-right">{{ invoice.order.totalAmount}}TK</td>
+                                    <td class="text-right"><%= invoice.order.totalAmount%>TK</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -129,3 +136,4 @@
 <button class="btn btn-info text-center pull-right" style="background-color: #0747a6; margin-bottom:10px;"
     onclick="myFunction()" id="buttonID">Download</button>
 </div>
+<%- include('../partials/_footer') %>

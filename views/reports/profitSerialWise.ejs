@@ -1,5 +1,7 @@
     
 
+<%- include('../partials/_head') %>
+
 <div class="container-fluid" style="width:100%;min-height: 700px">
     <div class="register-logo">
         <a href="#"><b>Profit</b>ByProduct</a>
@@ -12,9 +14,9 @@
         <input name="startDate"  id="startDate" class="date-picker" />
         <button type="submit" >submit</button>
     </form><br>
-    <b>Profit of sold Products: {{profit}}tk</b><br>
-    <b>Total Cost of sold Products: {{cost}}tk</b><br>
-    <b>Total Selling price of Sold Products: {{earning}}tk</b><br>
+    <b>Profit of sold Products: <%=profit%>tk</b><br>
+    <b>Total Cost of sold Products: <%=cost%>tk</b><br>
+    <b>Total Selling price of Sold Products: <%=earning%>tk</b><br>
 
 
     <div style="background-color: white">
@@ -30,16 +32,17 @@
                 </tr>
             </thead>
             <tbody>
-                {{# each serial}}
+            <% for(let i=0; i< serial.length; i++){ %>
                 <tr>
-                    <td>{{this.count}}</td>
-                    <td>{{this.pid.model}}</td>
-                    <td>{{this.number}}</td>
-                    <td>{{this.sid}}</td>
-                    <td>{{this.cost}}</td>
-                    <td>{{this.selling}}</td>
+                    <td><%=serial[i].count%></td>
+                    <td><%=serial[i].pid.model%></td>
+                    <td><%=serial[i].number%></td>
+                    <td><%=serial[i].sid%></td>
+                    <td><%=serial[i].cost%></td>
+                    <td><%=serial[i].selling%></td>
                 </tr> 
-                {{/each}}
+            <% } %>
+
             </tbody>
         </table>
     </div>
@@ -66,3 +69,4 @@
 
 
 </script>
+<%- include('../partials/_footer') %>

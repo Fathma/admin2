@@ -1,8 +1,9 @@
+<%- include('../partials/_head') %>
+
 <div id="container" style="height: 1766px;">
     <div class="row">
 
     </div><Br></Br>
-    {{order.invoice._id}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-1"></div>
@@ -11,57 +12,56 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Order Details</h3>
                     </div>
-
-                    {{!-- <div class="panel-body">
+                    <div class="panel-body">
                         <div class="order">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <tbody>
                                         <tr>
                                             <td>Order ID:</td>
-                                            <td>{{order.orderId}}</td>
+                                            <td><%=order.orderId%></td>
                                         </tr>
                                         <tr>
                                             <td>Last Invoice No:</td>
-                                            <td><a href="/orders/ViewInvoice/{{order.invoice._id}}">{{order.invoice.invoiceId}}</a>
+                                            <td><a href="/orders/ViewInvoice/<%=order.invoice._id%>"><%=order.invoice.invoiceId%></a>
                                             </td>
                                         </tr>
                                         
 
                                         <tr>
                                             <td>Customer:</td>
-                                            <td>{{order.user.profile.name}}</td>
+                                            <td><%=order.user.profile.name%></td>
                                         </tr>
 
                                         <tr>
                                             <td>E-Mail:</td>
-                                            <td><a href="mailto:{{order.user.email}}">{{order.user.email}}</a></td>
+                                            <td><a href="mailto:<%=order.user.email%>"><%=order.user.email%></a></td>
                                         </tr>
                                        
                                         <tr>
                                             <td>Total:</td>
-                                            <td>{{formatNumber order.totalAmount}}TK</td>
+                                            <td><%= order.totalAmount%>TK</td>
                                         </tr>
                                         <tr>
                                             <td>Order Status:</td>
-                                            <td id="order-status">{{order.currentStatus}}</td>
+                                            <td id="order-status"><%=order.currentStatus%></td>
                                         </tr>
 
                                         <tr>
                                             <td>Order Date:</td>
-                                            <td>{{formatDate order.created}}</td>
+                                            <td><%= moment(order.created).format( 'MMM-DD-YYYY') %></td>
                                         </tr>
                                         <tr>
                                             <td>Modified Date:</td>
-                                            <td>{{formatDate order.lastModified}}</td>
+                                            <td><%= moment(order.lastModified).format( 'MMM-DD-YYYY')%></td>
                                         </tr>
                                         <tr>
                                             <td>Payment Method:</td>
-                                            <td>{{order.paymentMethod}}</td>
+                                            <td><%=order.paymentMethod%></td>
                                         </tr>
                                         <tr>
                                             <td>Payment ID:</td>
-                                            <td>{{order.paymentId}}</td>
+                                            <td><%=order.paymentId%></td>
                                         </tr>
 
 
@@ -69,10 +69,11 @@
                                 </table>
                             </div>
                         </div>
-                    </div> --}}
-                </div>
+                    </div> 
 
-                {{!-- <div class="panel panel-default">
+                   
+                </div>
+                <div class="panel panel-default">
 
                     <div class="panel-heading">
                         <h3 class="panel-title">Shipping Info</h3>
@@ -84,39 +85,39 @@
                                     <tbody>
                                         <tr>
                                             <td>Name:</td>
-                                            <td>{{order.shippingAddress.shippingAddressName}}</td>
+                                            <td><%=order.shippingAddress.shippingAddressName%></td>
                                         </tr>
                                         <tr>
                                             <td>Contact Number:</td>
-                                            <td>{{order.shippingAddress.shippingAddressPhone}}</td>
+                                            <td><%=order.shippingAddress.shippingAddressPhone%></td>
                                         </tr>
                                         <tr>
                                             <td>Address part 1:</td>
-                                            <td>{{order.shippingAddress.shippingAddress1}}</td>
+                                            <td><%=order.shippingAddress.shippingAddress1%></td>
                                         </tr>
                                         <tr>
                                             <td>Address part 2:</td>
-                                            <td>{{order.shippingAddress.shippingAddress2}}</td>
+                                            <td><%=order.shippingAddress.shippingAddress2%></td>
                                         </tr>
                                         <tr>
                                             <td>City:</td>
-                                            <td>{{order.shippingAddress.shippingAddressCity}}</td>
+                                            <td><%=order.shippingAddress.shippingAddressCity%></td>
                                         </tr>
                                         <tr>
                                             <td>District:</td>
-                                            <td>{{order.shippingAddress.shippingAddressDistrict}}</td>
+                                            <td><%=order.shippingAddress.shippingAddressDistrict%></td>
                                         </tr>
                                         <tr>
                                             <td>Division:</td>
-                                            <td>{{order.shippingAddress.shippingAddressDivision}}</td>
+                                            <td><%=order.shippingAddress.shippingAddressDivision%></td>
                                         </tr>
                                         <tr>
                                             <td>Postal Code:</td>
-                                            <td>{{order.shippingAddress.shippingAddressPostalCode}}</td>
+                                            <td><%=order.shippingAddress.shippingAddressPostalCode%></td>
                                         </tr>
                                         <tr>
                                             <td>Country:</td>
-                                            <td>{{order.shippingAddress.shippingAddressCountry}}</td>
+                                            <td><%=order.shippingAddress.shippingAddressCountry%></td>
                                         </tr>
 
                                     </tbody>
@@ -125,7 +126,9 @@
                         </div>
                     </div>
 
-                </div> --}}
+                </div> 
+
+                
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Products</h3>
@@ -147,44 +150,40 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{# each order.cart}}
-
+                                <% for(let i=0; i< order.cart.length; i++){ %>
                                         <tr>
                                             <td>
-                                                <a href="/orders/addSerialToProduct/{{this.oid}}/{{this.product._id}}/{{this.product.name}}/{{this.quantity}}/{{this._id}}">Add
+                                                <a href="/orders/addSerialToProduct/<%=order.cart[i].oid%>/<%=order.cart[i].product._id%>/<%=order.cart[i].product.name%>/<%=order.cart[i].quantity%>/<%=order.cart[i]._id%>">Add
                                                     Serial/Product ID</a>
                                             </td>
                                             <td class="text-left">
-                                                <a href="#">{{this.product.name}}</a>
+                                                <a href="#"><%=order.cart[i].product.name%></a>
                                                 <p>SN:
-                                                    {{# each this.serials}}
-                                                    {{# if this.number}}
-                                                    {{this.number}}
-                                                    {{else}}
-                                                    {{this.sid}}
-                                                    {{/if}}
-                                                    {{/each}}</p>
+                                                <% for(let j=0; j< order.cart[i].serials.length; j++){ %>
+                                                    <% if(order.cart[i].serials[j].number) { %>
+                                                    <%=order.cart[i].serials[j].number%>
+                                                    <% } else { %>
+                                                    <%= order.cart[i].serials[j].sid%>
+                                                    <% } %>
+                                                    <% } %></p>
                                                 <br>
                                             </td>
 
                                             <td class="text-right">
-                                                {{!-- <a href="/orders/Edit/{{this.oid}}/{{this.product._id}}/{{this.product.name}}/{{this.quantity}}/{{this.unitPrice}}/{{this._id}}"
-                                                    data-toggle="tooltip" data-placement="top" title="Edit"
-                                                    style="padding: 0%" class="btn btn-primary"> 
-                                                    <img src="https://img.icons8.com/windows/20/ffffff/edit.png"></a> --}}
-                                                        {{this.quantity}}
+
+                                                        <%=order.cart[i].quantity%>
                                             </td>
-                                            <td class="text-right">{{ this.unitPrice }}TK</td>
-                                            <td class="text-right">{{ this.price }}TK</td>
+                                            <td class="text-right"><%= order.cart[i].unitPrice %>TK</td>
+                                            <td class="text-right"><%= order.cart[i].price %>TK</td>
                                         </tr>
-                                        {{/each}}
+                                        <% } %>
                                         <tr>
                                             <td colspan="4" class="text-right">Shipping Cost:</td>
-                                            <td class="text-right">{{ order.shippingCharge }}TK</td>
+                                            <td class="text-right"><%= order.shippingCharge %>TK</td>
                                         </tr>
                                         <tr>
                                             <td colspan="4" class="text-right">Total:</td>
-                                            <td class="text-right">{{ order.totalAmount }}TK</td>
+                                            <td class="text-right"><%= order.totalAmount %>TK</td>
                                         </tr>
 
                                     </tbody>
@@ -214,15 +213,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{# each order.history}}
-                                            {{!-- <tr>
-                                                <td class="text-left">{{formatDate this.date}}</td>
-                                                <td class="text-left">{{this.comment}}</td>
+                                        <% for(let i=0; i< order.history.length; i++){ %>
+                                            <tr>
+                                                <td class="text-left"><%=moment(order.history[i].date).format( 'MMM-DD-YYYY') %></td>
+                                                <td class="text-left"><%=order.history[i].comment%></td>
 
-                                                <td class="text-left">{{this.status}}</td>
-                                                <td class="text-left">{{this.customerNotified}}</td>
-                                            </tr> --}}
-                                            {{/each}}
+                                                <td class="text-left"><%=order.history[i].status%></td>
+                                                <td class="text-left"><%=order.history[i].customerNotified%></td>
+                                            </tr> 
+                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>
@@ -232,9 +231,9 @@
 
                             <fieldset>
                                 <legend>Add Order History</legend>
-                                <form action="/orders/updateHistory/{{order._id}}" method="POST"
+                                <form action="/orders/updateHistory/<%=order._id%>" method="POST"
                                     class="form-horizontal">
-                                    <input type="hidden" name="email" value="{{order.user.email}}">
+                                    <input type="hidden" name="email" value="<%=order.user.email%>">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="input-order-status">Order
                                             Status</label>
@@ -275,3 +274,4 @@
         </div>
         <div class="col-sm-1"></div>
     </div>
+<%- include('../partials/_footer') %>

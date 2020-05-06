@@ -1,5 +1,6 @@
-<div class="row" id="mycanvas">
-    
+<%- include('../partials/_head') %>
+
+<div class="row" id="mycanvas">  
         <div>
             <br>
             <br>
@@ -15,33 +16,33 @@
                     <tbody>
                         <tr>
                             <td><b> Order ID:</b></td>
-                            <td>{{order._id}}</td>
+                            <td><%=order._id%></td>
                             <td><b>Invoice No:</b></td>
-                            <td>{{invoice}}</td>
+                            <td><%=invoice%></td>
                         </tr>
                         <tr>
                             <td><b>Customer:</b></td>
-                            <td>{{order.user.profile.name}}</td>
+                            <td><%=order.user.profile.name%></td>
                             <td><b>Stock Location:</b></td>
-                            <td>{{user.branch}}</td>
+                            <td><%=user.branch%></td>
                         </tr>
                         <tr>
                             <td><b>E-Mail:</b></td>
-                            <td>{{order.user.email}}</td>
+                            <td><%=order.user.email%></td>
                             <td><b>Sales Person:</b></td>
-                            <td>{{user.name}}</td>
+                            <td><%=user.name%></td>
                         </tr>
                         <tr>
                             <td><b>Telephone:</b></td>
-                            <td>{{order.user.contact}}</td>
+                            <td><%=order.user.contact%></td>
                             <td><b>Entry By:</b></td>
-                            <td>{{user.name}}</td>
+                            <td><%=user.name%></td>
                         </tr>
                         <tr>
                             <td><b>Payment Method:</b></td>
-                            <td>{{order.paymentMethod}}</td>
+                            <td><%=order.paymentMethod%></td>
                             <td><b>Address:</b></td>
-                            <td>{{order.address}}</td>
+                            <td><%=order.address%></td>
                         </tr>
                     </tbody>
                 </table>
@@ -60,34 +61,41 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{# each order.cart}}
+                             <% for(let i=0; i< order.cart.length; i++){ %>
+
+                                
 
                                 <tr>
-                                    <td>{{this.num}}</td>
+                                    <td><%=order.cart[i].num%></td>
                                     <td class="text-left">
-                                        <a href="#">{{this.product.name}}</a>
+                                        <a href="#"><%=order.cart[i].product.name%></a>
                                         <br>
-                                        {{# if this.product.warranty}}
+                                        <% if(order.cart[i].product.warranty) { %>
                                         <p><b>Warranty:</b>
-                                            {{this.product.warranty}}
+                                            <%=order.cart[i].product.warranty%>
                                            
                                         <br>
-                                         {{/if}}</p>
-                                        <p>SN:{{# each this.serial}} {{this}} {{/each}}</p>
+                                        <% } %>
+                                        </p>
+                                        <p>SN:
+                                            <% for(let i=0; i< order.cart[i].serial.length; i++){ %>
+                                            <%=order.cart[i].serial[i]%> 
+                                            <% } %>
                                         <br>
                                     </td>
-                                    <td class="text-right">{{ this.quantity}}</td>
-                                    <td class="text-right">{{ this.unitPrice}}TK</td>
-                                    <td class="text-right">{{ this.price}}TK</td>
+                                    <td class="text-right"><%= order.cart[i].quantity%></td>
+                                    <td class="text-right"><%= order.cart[i].unitPrice%>TK</td>
+                                    <td class="text-right"><%= order.cart[i].price%>TK</td>
                                 </tr>
-                                {{/each}}
+                                <% } %>
+
                                 <tr>
                                     <td colspan="4" class="text-right">Shipping Cost:</td>
-                                    <td class="text-right">{{ order.shippingCharge}}TK</td>
+                                    <td class="text-right"><%= order.shippingCharge%>TK</td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-right">Total:</td>
-                                    <td class="text-right">{{ order.totalAmount}}TK</td>
+                                    <td class="text-right"><%= order.totalAmount%>TK</td>
                                 </tr>
 
                             </tbody>
@@ -111,3 +119,5 @@
 <button class="btn btn-info text-center pull-right" style="background-color: #0747a6; margin-bottom:10px;"
     onclick="myFunction()" id="buttonID">Download</button>
 </div>
+
+<%- include('../partials/_footer') %>
