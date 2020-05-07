@@ -19,11 +19,13 @@
                                         <div class="col-md-6">
                                             <select class="form-control inp" name="categg" id="categg" required>
                                                 <option value="" selected>Select One</option>
-                                                {{# each cat}}
-                                                <option value="{{this._id}},{{this.name}}"
-                                                    {{# equality this._id ../product.category}} selected{{/equality}}>
-                                                    {{this.name}}</option>
-                                                {{/each}}
+                                                <% for(let i=0; i< cat.length; i++){ %>
+                                                <option value="<%=cat[i]._id%>,<%=cat[i].name%>"
+                                                    <% if(cat[i]._id == product.category ){ %>>
+                                                     selected
+                                                     <% } %>>
+                                                    <%=cat[i].name%></option>
+                                                <% } %>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
@@ -39,11 +41,11 @@
                                         <div class="col-md-6">
                                             <select class="form-control inp" name="subCategg" id="subCategg">
                                                 <option value="0">select one</option>
-                                                {{# each categories}}
-                                                <option value="{{this._id}},{{this.name}}"
-                                                    {{# equality this._id ../product.subcategory}}
-                                                    selected{{/equality}}>{{this.name}} </option>
-                                                {{/each}}
+                                                <% for(let i=0; i< categories.length; i++){ %>
+                                                <option value="<%=categories[i]._id%>,<%=categories[i].name%>"
+                                                    <% if(categories[i]._id == product.subcategory) { %>
+                                                    selected<%}%>><%=categories[i].name%> </option>
+                                                <%}%>>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
@@ -62,11 +64,11 @@
                                         <div class="col-md-6">
                                             <select class="form-control inp" name="brandg" id="brandg" required>
                                                 <option value="" selected>select one</option>
-                                                {{# each brand}}
-                                                <option value="{{this._id}},{{this.name}}"
-                                                    {{# equality this._id ../product.brand}} selected{{/equality}}>
-                                                    {{this.name}} </option>
-                                                {{/each}}
+                                                <% for(let i=0; i< brand.length; i++){ %>
+                                                <option value="<%=brand[i]._id%>,<%=brand[i].name%>"
+                                                    <% if(brand[i]._id == product.brand){%> selected<%}%>>
+                                                    <%=brand[i].name%> </option>
+                                                <%}%>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
@@ -80,7 +82,7 @@
                                             <label class="lbl" for="model">Model<span style="color: red">*</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control inp" value="{{product.model}}"
+                                            <input type="text" class="form-control inp" value="<%=product.model%>"
                                                 name="model" id="model" required>
                                         </div>
                                     </div>
