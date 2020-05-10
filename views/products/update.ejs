@@ -139,14 +139,21 @@
                                         <label class="lbl" for="discount">Discount:
                                         </label>
                                     </div>
+                                    
+
+                        
                                     <div class="col-md-6">
                                         <select name="discount" id="discount" class="form-control inp">
                                             <option value=''>Select One</option>
                                             <% for(let i=0; i< discount.length; i++){ %>
                                             <option value="<%=discount[i]._id%>"
-                                                <% if(discount[i]._id.toString() == product.discount.toString() ) { %>
+                                                <% if(product.discount != null ){%>
+                                                <% if(product.discount.toString() == discount[i]._id.toString()) { %>
                                                     selected
-                                                    <% } %>>
+                                                    <% } %>
+                                                    <% } %>
+                                                    
+                                                    >
                                                 <%=discount[i].name%>:
                                                 <% if(discount[i].usePercentage) { %>
                                                 <%=discount[i].discountPercent%>%

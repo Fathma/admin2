@@ -9,7 +9,7 @@
                 <img src="/assets/img/avatar5.png" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p> <a href="/users/profile/{{user._id}}">{{user.name}}</a></p>
+                <p> <a href="/users/profile/{{user._id}}"><%= user.name%></a></p>
                 <% if(user){ %>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 <% } else{ %> 
@@ -100,7 +100,7 @@
                 <ul class="treeview-menu">
                     
                     <li><a href="/products/serials"><i class="fa fa-circle-o"></i>Product Status</a></li>
-                    {{!-- <li><a href="/products/viewProducts"><i class="fa fa-circle-o"></i>Product List</a></li> --}}
+                    
                 </ul>
             </li>
             <li class="treeview">

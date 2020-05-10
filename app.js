@@ -15,6 +15,12 @@ const expressValidator = require('express-validator');
 const Grid = require('gridfs-stream')
 const ejs = require('ejs')
 
+
+const Category = require('./src/models/category.model')
+const Brand = require('./src/models/brand.model')
+const SubCategory = require('./src/models/subCategory.model')
+
+
 const app = express();
 var compression = require('compression')
 app.use(compression())
@@ -124,7 +130,7 @@ if (cluster.isMaster) {
   console.log(`worker  ${process.pid} is running`);
 
   // Gloabl variables
-  app.use((req, res, next)=>{
+  app.use( async(req, res, next)=>{
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");
     res.locals.error = req.flash("error"); 
@@ -133,6 +139,9 @@ if (cluster.isMaster) {
     res.locals.session = req.session;
     res.locals.productentry_msg = vlaues.msg.productentry;
     res.locals.moment = moment;
+    res.localscat = await Category.find()
+    res.localscategories = await SubCategory.find()
+    res.localsbrand4 = await Brand.find()
     next();
   });
 

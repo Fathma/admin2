@@ -11,11 +11,12 @@ const key= require('../../config/keys')
 // loads all the requires models
 const Product = require('../models/product.model')
 const Category = require('../models/category.model')
+const Brand = require('../models/brand.model')
+
 const SubCategory = require('../models/subCategory.model')
 const Specification = require('../models/specification.model')
 const Serial = require('../models/serials.model')
 const LocalPurchase = require('../models/localPurchase.model')
-const Brand = require('../models/brand.model')
 const Discount = require('../models/discount.model')
 
 mongoose.Promise = global.Promise;
@@ -349,10 +350,13 @@ exports.showProductRegistrationFields =async (req, res, next) => {
           })
         })
       }
+
     // checks whether the model already exists or not
-    Product.findOne({ model: model }, ( err, result )=>{
+    Product.findOne({ model: model }, async ( err, result )=>{
       if( !result ){
-        new Product( product ).save().then( product => res.render('products/dealerProduct.ejs',{ product, features, feature_total: features.length }))
+        new Product( product ).save().then( product => res.redirect('/products/viewProducts'))
+
+        // new Product( product ).save().then( product => res.render('products/dealerProduct.ejs',{ product, features, feature_total: features.length }))
       }
       else { 
         req.flash('error_msg', 'The product already exists!')
