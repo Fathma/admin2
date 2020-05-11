@@ -162,6 +162,7 @@ if (cluster.isMaster) {
 
 
   app.get("/",async (req, res) => {
+
     if (req.user) {
       res.redirect("/general/showDashboard")
     } else {
