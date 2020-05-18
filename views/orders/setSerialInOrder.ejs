@@ -1,3 +1,5 @@
+<%- include('../partials/_head') %>
+
 <div class="box" >
     <div class="register-logo">
         <a href="#"><b>Add</b>Serial</a>
@@ -9,28 +11,28 @@
             <div class="col-sm-12 col-md-6 col-md-offset-3 col-sm-offset-3">
                 <div class="well">
                   
-                    <form action="/orders/setSerials/{{order._id}}/{{model}}/{{item_id}}" method="POST">
+                    <form action="/orders/setSerials/<%=order._id%>/<%=model%>/<%=item_id%>" method="POST">
                         
-                       <input type="hidden" name="quantity" id="quantity" value="{{quantity}}">
+                       <input type="hidden" name="quantity" id="quantity" value="<%=quantity%>">
                         <div class="form-group">
                             <label for="Order_ID">Order ID:</label>
-                            <input type="text" name="orderId" id="orderId" value="{{order.orderId}}" class="form-control"
+                            <input type="text" name="orderId" id="orderId" value="<%=order.orderId%>" class="form-control"
                                 required>
-                            <input type="hidden" name="Order_ID" id="Order_ID" value="{{order._id}}" class="form-control"
+                            <input type="hidden" name="Order_ID" id="Order_ID" value="<%=order._id%>" class="form-control"
                                 required>
                         </div>
                          <div class="form-group">
                             <label for="model">Model:</label>
-                            <input type="text" name="model" id="model" value="{{model_name}}" class="form-control"
+                            <input type="text" name="model" id="model" value="<%=model_name%>" class="form-control"
                                 required>
                         </div>
-                      
+                        
                          <div class="form-group">
                             <label for="Serial">Serial Numbers</label>
                             <input type="text" name="Serial" id="Serial" class="form-control"
-                            <% if(previous){%>
-                            value="<%=previous%>"
-                            <% } %>
+                            <% if(previous == null ){%>
+                                value="<%=previous%>"
+                                <% } %>
                                 required>
                                 <select id="selected" onchange="set_serial_last()">
                                     <option value="0" selected>select Serial Numbers</option>
@@ -55,3 +57,4 @@
         </div>
     </div>
 </div>
+<%- include('../partials/_footer') %>

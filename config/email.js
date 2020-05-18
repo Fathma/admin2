@@ -8,8 +8,10 @@ const keys = require('./keys')
 
 // configuring email 
 const transport = nodemailer.createTransport({
+    // service: 'protonmail',
     service: 'gmail',
     type:"SMTP",
+    // host: "smtp.protonmail.com",
     host: "smtp.gmail.com",
     secure: true,
     port: 25,
@@ -33,3 +35,6 @@ const transport = nodemailer.createTransport({
          });
      }
  }
+
+
+ 
