@@ -6,7 +6,7 @@
 var mongo = require('mongodb')
 const mongoose = require('mongoose')
 const Grid = require('gridfs-stream')
-const key= require('../../config/keys')
+const key = require('../../config/keys')
 
 // loads all the requires models
 const Product = require('../models/product.model')
@@ -29,64 +29,64 @@ conn.once('open', function () {
 })
 
 // fires the page to create new product specification 
-exports.SpecificationsNew = (req, res)=> res.render('products/newSpecification.ejs')
+exports.SpecificationsNew = (req, res) => res.render('products/newSpecification.ejs')
 
 
 // fires the page if new specification need while registering a product. 
 // that id is to go back that specific product after adding new specification
-exports.SpecificationsNewId = (req, res)=> {
-  res.render('products/newSpecification.ejs', { id: req.params.id})
+exports.SpecificationsNewId = (req, res) => {
+  res.render('products/newSpecification.ejs', { id: req.params.id })
 }
 
 // making a product disable
-exports.makeDisabled =async (req, res)=>{
-  await Specification.update({ _id: req.params.sid }, {$set: { enabled: false } })
-  res.redirect('/products/Specifications#'+req.params.sid)
+exports.makeDisabled = async (req, res) => {
+  await Specification.update({ _id: req.params.sid }, { $set: { enabled: false } })
+  res.redirect('/products/Specifications#' + req.params.sid)
 }
 
 // making a product enable
-exports.makeEnabled =async (req, res)=>{
-  await Specification.update({ _id: req.params.sid }, {$set: { enabled: true } })
-  res.redirect('/products/Specifications#'+req.params.sid)
+exports.makeEnabled = async (req, res) => {
+  await Specification.update({ _id: req.params.sid }, { $set: { enabled: true } })
+  res.redirect('/products/Specifications#' + req.params.sid)
 }
 
 
 // making filtering false of a specification
-exports.specificationMakeFalse =async (req, res)=>{
-  await Specification.update({ _id: req.params.sid }, {$set: { filtering: false } })
-  res.redirect('/products/Specifications#'+req.params.sid)
+exports.specificationMakeFalse = async (req, res) => {
+  await Specification.update({ _id: req.params.sid }, { $set: { filtering: false } })
+  res.redirect('/products/Specifications#' + req.params.sid)
 }
 
 
 // making filtering false of a specification
-exports.specificationMakeTrue =async (req, res)=>{
-  await Specification.update({ _id: req.params.sid }, {$set: { filtering: true } })
-  res.redirect('/products/Specifications#'+req.params.sid)
+exports.specificationMakeTrue = async (req, res) => {
+  await Specification.update({ _id: req.params.sid }, { $set: { filtering: true } })
+  res.redirect('/products/Specifications#' + req.params.sid)
 }
 
 // save new specification
-exports.SpecificationsSave = (req, res)=>{
+exports.SpecificationsSave = (req, res) => {
   // check whether it is already exists or not 
-  Specification.findOne({ name: req.body.specification}, (err, specifications)=>{
-    if(!specifications){
+  Specification.findOne({ name: req.body.specification }, (err, specifications) => {
+    if (!specifications) {
       let obj = {
         name: req.body.specification,
         createdBy: req.user._id
       }
-      
+
       //  if product id exist then it will redirect to that product update page
-      if(req.body.id){
-        new Specification(obj).save().then(()=>{
-          res.redirect('/products/Update/'+req.body.id+'#SPECIFICATIONS1')
+      if (req.body.id) {
+        new Specification(obj).save().then(() => {
+          res.redirect('/products/Update/' + req.body.id + '#SPECIFICATIONS1')
         })
-      }else{
-        new Specification(obj).save().then(()=>{
+      } else {
+        new Specification(obj).save().then(() => {
           res.redirect('/products/specifications/new')
         })
       }
-     
+
     }
-    else{
+    else {
       req.flash('error_msg', 'Already exists!')
       res.redirect('/products/specifications/new')
     }
@@ -94,17 +94,17 @@ exports.SpecificationsSave = (req, res)=>{
 }
 
 //  shows list od specification
-exports.Specifications =async (req, res)=>{
+exports.Specifications = async (req, res) => {
   var specifications = await Specification.find().populate('createdBy')
   var count = 1;
-  specifications.map( doc=> doc.count = count++ )
-  res.render('products/specifications.ejs',{ specifications })
-  
+  specifications.map(doc => doc.count = count++)
+  res.render('products/specifications.ejs', { specifications })
+
 }
 
 // save shipping in fo of a product
-exports.shippingSave = async(req, res)=>{
-  
+exports.shippingSave = async (req, res) => {
+
   let prod = await Product.findOne({ _id: req.body.pid })
   let shippingInfo = {
     weight: req.body.weight,
@@ -115,182 +115,181 @@ exports.shippingSave = async(req, res)=>{
     additionalCharge: req.body.additionalCharge,
     deliveryDate: req.body.deliveryDate,
   }
-  
-  prod.shippingInfo=shippingInfo
 
-  new Product(prod).save().then(()=>{
-    res.redirect('/products/Update/'+ req.body.pid+'#Shipping1')
+  prod.shippingInfo = shippingInfo
+
+  new Product(prod).save().then(() => {
+    res.redirect('/products/Update/' + req.body.pid + '#Shipping1')
   })
 }
 
-exports.SavePrice =async (req, res)=>{
-  if(req.body.discount == '') req.body.discount=null
-  await Product.update({ _id: req.body.pid }, {$set:req.body})
-  res.redirect('/products/Update/'+ req.body.pid+'#PRICE')
+exports.SavePrice = async (req, res) => {
+  if (req.body.discount == '') req.body.discount = null
+  await Product.update({ _id: req.body.pid }, { $set: req.body })
+  res.redirect('/products/Update/' + req.body.pid + '#PRICE')
 }
 
 // added attribute to a product
-exports.SaveAttribute = async (req, res)=>{
+exports.SaveAttribute = async (req, res) => {
   let prod = await Product.findOne({ _id: req.body.pid })
   let attribute = {
     label: req.body.label,
     value: req.body.value
   }
-  
+
   prod.features.push(attribute)
 
-  new Product(prod).save().then(()=>{
-    res.redirect('/products/Update/'+ req.body.pid+'#SPECIFICATIONS1')
+  new Product(prod).save().then(() => {
+    res.redirect('/products/Update/' + req.body.pid + '#SPECIFICATIONS1')
   })
 }
 
 // saves homePage tags
-exports.SaveHomePageTag = async (req, res)=>{
-  await Product.update({_id: req.body.pid},{ $set:{HomePagetag: req.body.HomePagetag} })
-  res.redirect('/products/Update/'+ req.body.pid+'#ProductTag1')
+exports.SaveHomePageTag = async (req, res) => {
+  await Product.update({ _id: req.body.pid }, { $set: { HomePagetag: req.body.HomePagetag } })
+  res.redirect('/products/Update/' + req.body.pid + '#ProductTag1')
 }
 
 // deletes an attribute from a product
-exports.deleteAttribute = async (req, res)=>{
+exports.deleteAttribute = async (req, res) => {
   let prod = await Product.findOne({ _id: req.params._id })
 
-  prod.features = prod.features.filter(function(feature, index, arr){
+  prod.features = prod.features.filter(function (feature, index, arr) {
     return feature.label.toString() !== req.params.label;
   });
 
-  new Product(prod).save().then(()=>{
-    res.redirect('/products/Update/'+ req.params._id+'#SPECIFICATIONS1')
+  new Product(prod).save().then(() => {
+    res.redirect('/products/Update/' + req.params._id + '#SPECIFICATIONS1')
   })
 
 }
 
 
 // saves related products to a product
-exports.relatedProducts1 =async (req, res)=>{
+exports.relatedProducts1 = async (req, res) => {
   let _id = req.body.pid;
-  let prod = await Product.findOne({_id})
-  if(prod.relatedProducts.includes(req.body.relatedProducts)){
-    res.redirect('/products/Update/'+_id)
-  }else{
+  let prod = await Product.findOne({ _id })
+  if (prod.relatedProducts.includes(req.body.relatedProducts)) {
+    res.redirect('/products/Update/' + _id)
+  } else {
     prod.relatedProducts.push(req.body.relatedProducts)
-    new Product(prod).save().then(async (pro)=>{
-      res.redirect('/products/Update/'+_id+"#RELATED")
+    new Product(prod).save().then(async (pro) => {
+      res.redirect('/products/Update/' + _id + "#RELATED")
     })
   }
 }
- 
+
 
 // deletes a related product
-exports.relatedProductsDelete1 = async(req, res)=>{
+exports.relatedProductsDelete1 = async (req, res) => {
   // delete_related (req)
   let product = await Product.findOne({ _id: req.params.pid })
-  
-  let el = product.relatedProducts.filter((ele)=>{
+
+  let el = product.relatedProducts.filter((ele) => {
     return ele != req.params.rid
   })
   product.relatedProducts = el
-  new Product(product).save().then(()=>{
-    res.redirect('/products/Update/'+req.params.pid+"#RELATED1")
+  new Product(product).save().then(() => {
+    res.redirect('/products/Update/' + req.params.pid + "#RELATED1")
   })
-  
+
 }
 
 // viewProducts
-exports.viewProducts = (req, res)=>{
-  Product.find().sort({'created': -1})
-  .select({ productName:1, model: 1, sellingPrice: 1, isActive:1, availablity: 1, dealer: 1, _id:1, discount:1 })
-  .populate('discount')
-  .exec((err, products)=>{
-    var count = 1;
-    products.map( doc=> doc.count = count++ )
-    res.render('products/viewProducts.ejs', { products })
-  })
+exports.viewProducts = (req, res) => {
+  Product.find().sort({ 'created': -1 })
+    .select({ productName: 1, model: 1, sellingPrice: 1, isActive: 1, availablity: 1, dealer: 1, _id: 1, discount: 1 })
+    .populate('discount')
+    .exec((err, products) => {
+      var count = 1;
+      products.map(doc => doc.count = count++)
+      res.render('products/viewProducts.ejs', { products })
+    })
 }
 
 // get Product update page
-exports.getProductUpdatePage = async(req, res)=>{
+exports.getProductUpdatePage = async (req, res) => {
   let product = await Product.findOne({ _id: req.params._id }).populate('relatedProducts').populate('features.label').populate('category').populate('subcategory')
-  let specifications = await Specification.find({ enabled: true})
+  let specifications = await Specification.find({ enabled: true })
   let discount = await Discount.find({ type: "product", enabled: "true" })
   let cat = product.category
   let sub = product.subcategory
   let motherboard = false
   let ram = false
-  if(cat.name === 'DESKTOP COMPONENT' || cat.name === 'Desktop Component' || cat.name === 'Desktop component'){
-    if(sub.name === 'Motherboard' || sub.name === 'motherboard' || sub.name === 'MOTHERBOARD' ){
+  if (cat.name === 'DESKTOP COMPONENT' || cat.name === 'Desktop Component' || cat.name === 'Desktop component') {
+    if (sub.name === 'Motherboard' || sub.name === 'motherboard' || sub.name === 'MOTHERBOARD') {
       motherboard = true
     }
-    if(sub.name === 'RAM' || sub.name === 'ram' || sub.name === 'Desktop RAM' || sub.name === 'DESKTOP RAM' ){
+    if (sub.name === 'RAM' || sub.name === 'ram' || sub.name === 'Desktop RAM' || sub.name === 'DESKTOP RAM') {
       ram = true
     }
   }
   let pro = await Product.find()
 
-  res.render('products/update.ejs',{ product, feature_total: product.features.length, specifications, motherboard, ram, discount, Product:pro})
+  res.render('products/update.ejs', { product, feature_total: product.features.length, specifications, motherboard, ram, discount, Product: pro })
 }
 
 
 // saving product for dealer products
-exports.SaveProductDealer = async(req, res)=>{
+exports.SaveProductDealer = async (req, res) => {
   var data = req.body.data
-  await Product.update({ _id: data._id },{ $set: data },{ upsert: true })
+  await Product.update({ _id: data._id }, { $set: data }, { upsert: true })
   res.send({})
 }
 
 
 // saving product for local purchase products
-exports.SaveProductLP = async(req, res)=>{
+exports.SaveProductLP = async (req, res) => {
   var data = req.body.data
-  await Product.update({ _id: data._id },{ $set: data },{ upsert: true })
+  await Product.update({ _id: data._id }, { $set: data }, { upsert: true })
   await Serial.insertMany(req.body.serials)
   res.send({})
 }
 
 
 // updating product for local purchase products
-exports.updateProduct = async(req, res)=>{
+exports.updateProduct = async (req, res) => {
   var data = req.body.data
-  await Product.update({ _id: data._id },{ $set: data },{ upsert: true })
+  await Product.update({ _id: data._id }, { $set: data }, { upsert: true })
   res.send({})
 }
 
 
 // checks whether any of the given serials already exists or not
-exports.checkSerials = async(req, res)=>{
+exports.checkSerials = async (req, res) => {
 
   var arr = req.body.serial_array
   var exists = [];
   var serials = await Serial.find({ pid: req.body.pid })
-  
-  serials.map( serial =>{
-    if(arr.includes(serial.number)){
+
+  serials.map(serial => {
+    if (arr.includes(serial.number)) {
       exists.push(serial.number)
     }
   })
-  
+
   res.send({ exists })
 }
 
 
 // saves image in folder
 exports.SaveImage3 = async (req, res) => {
-
-  await req.files.map(async image =>{
+  await req.files.map(async image => {
     var link = `https://ecom-admin.herokuapp.com/image/${image.filename}`
-    await Product.update({ _id: req.body.pid },{ $addToSet: { image: link } },{ upsert: true })
+    await Product.update({ _id: req.body.pid }, { $addToSet: { image: link } }, { upsert: true })
   })
   res.redirect(`/products/Update/${req.body.pid}#IMAGES1`)
 }
 
 // delete image url from product 
-exports.deteteImg = (req, res)=>{
+exports.deteteImg = (req, res) => {
   filename = req.body.img.split('image/')[1];
-  
-  Product.updateOne({ _id: req.body.id }, { $pull: { image: req.body.img }},{ upsert: true }, ( err, docs )=>{
-    if(err) console.log(err);
+  console.log(filename)
+  Product.updateOne({ _id: req.body.id }, { $pull: { image: req.body.img } }, { upsert: true }, (err, docs) => {
+    if (err) console.log(err);
     else {
       gfs.remove({ filename }, (err) => {
-        res.redirect( `/products/Update/${req.body.id}#IMAGES1` )
+        res.redirect(`/products/Update/${req.body.id}#IMAGES1`)
       })
     }
   })
@@ -298,89 +297,90 @@ exports.deteteImg = (req, res)=>{
 
 
 // In-house stock product entry page
-exports.getInhouseInventoryPage =async (req, res) => {
+exports.getInhouseInventoryPage = async (req, res) => {
   let localPurchase = await LocalPurchase.find()
-  res.render('products/InhouseStockProduct.ejs',{ LocalPurchase: localPurchase });
+  res.render('products/InhouseStockProduct.ejs', { LocalPurchase: localPurchase });
 }
 
 // dealer stock product entry page
-exports.getDealerInventoryPage =async (req, res) =>{
+exports.getDealerInventoryPage = async (req, res) => {
   let cat = await Category.find()
   let categories = await SubCategory.find()
   let brand = await Brand.find()
-  res.render('products/dealerProduct.ejs',{cat, categories, brand})
-} 
+  res.render('products/dealerProduct.ejs', { cat, categories, brand })
+}
 
 
 // shows the number of fields user wants
-exports.showProductRegistrationFields =async (req, res, next) => {
-  var category= req.body.categg.split(',')
-  var brand= req.body.brandg.split(',')
-  var model= req.body.model
-  await Category.updateOne({_id: category[0]}, {$addToSet:{ brands: brand[0]} },{ upsert: true })
+exports.showProductRegistrationFields = async (req, res, next) => {
+  var category = req.body.categg.split(',')
+  var brand = req.body.brandg.split(',')
+  var model = req.body.model
+  await Category.updateOne({ _id: category[0] }, { $addToSet: { brands: brand[0] } }, { upsert: true })
   var product = {
     category: category[0],
     brand: brand[0],
     model: model,
   }
-  var obj={
-      category: category[0],
-      brand: brand[0]
+  var obj = {
+    category: category[0],
+    brand: brand[0]
   }
   // if there is no sub category of that category
-  if(req.body.subCategg != '0'){
-    var subcategory= req.body.subCategg.split(',');
-    await SubCategory.updateOne({_id: subcategory[0]}, { $addToSet:{ brands: brand[0]} },{ upsert: true })
+  if (req.body.subCategg != '0') {
+    var subcategory = req.body.subCategg.split(',');
+    await SubCategory.updateOne({ _id: subcategory[0] }, { $addToSet: { brands: brand[0] } }, { upsert: true })
     product.subcategory = subcategory[0],
-    product.productName = category[1]+'-'+subcategory[1]+'-'+brand[1]+'-'+model
-    product.pid = category[1].substr(0,2)+brand[1].substr(0,2)
+      product.productName = category[1] + '-' + subcategory[1] + '-' + brand[1] + '-' + model
+    product.pid = category[1].substr(0, 2) + brand[1].substr(0, 2)
     obj.subcategory = subcategory[0]
-  }else{
-    product.productName = category[1]+'-'+ brand[1]+'-'+ model
-    product.pid = category[1].substr(0,2)+ brand[1].substr(0,2)
+  } else {
+    product.productName = category[1] + '-' + brand[1] + '-' + model
+    product.pid = category[1].substr(0, 2) + brand[1].substr(0, 2)
   }
-  
+
   // get all the features of cat sub and brand
-  Product.find(obj, function(err, pros){
-      var features = []
-      if(!pros){
-        pros.map( (product)=>{
-          product.features.map((feature)=>{
-            features.push(feature.label);
-          })
+  Product.find(obj, function (err, pros) {
+    var features = []
+    if (!pros) {
+      pros.map((product) => {
+        product.features.map((feature) => {
+          features.push(feature.label);
         })
-      }
+      })
+    }
 
     // checks whether the model already exists or not
-    Product.findOne({ model: model }, async ( err, result )=>{
-      if( !result ){
-        new Product( product ).save().then( product => res.redirect('/products/viewProducts'))
+    Product.findOne({ model: model }, async (err, result) => {
+      if (!result) {
+        new Product(product).save().then(product => res.redirect('/products/viewProducts'))
 
         // new Product( product ).save().then( product => res.render('products/dealerProduct.ejs',{ product, features, feature_total: features.length }))
       }
-      else { 
+      else {
         req.flash('error_msg', 'The product already exists!')
-        res.render('products/dealerProduct.ejs') }
+        res.render('products/dealerProduct.ejs')
+      }
     })
   })
 };
 
-var changeStatus = (condition,  object, res, cb) => {
-    Product.update(condition,{ $set: object },{ upsert: true }, function(err, docs) {
-        if (err) console.log(err)
-        cb(docs)
-      }
-    )
+var changeStatus = (condition, object, res, cb) => {
+  Product.update(condition, { $set: object }, { upsert: true }, function (err, docs) {
+    if (err) console.log(err)
+    cb(docs)
   }
+  )
+}
 
 //find fuction from product collection
 var find = (obj, cb) => {
-  Product.find(obj).populate("brand").populate("admin").populate("subcategory").populate("category").exec(function(err, docs) { cb(docs); });
+  Product.find(obj).populate("brand").populate("admin").populate("subcategory").populate("category").exec(function (err, docs) { cb(docs); });
 };
 
 // returns Edit page from product info
 exports.getEditpage = (req, res, next) => {
-  find({ _id: mongo.ObjectID(req.params.id) }, (docs)=>{
+  find({ _id: mongo.ObjectID(req.params.id) }, (docs) => {
     res.render('products/update.ejs', {
       title: 'Update Product',
       product: docs[0],
@@ -393,7 +393,7 @@ exports.getEditpage = (req, res, next) => {
 exports.makeNotActive = (req, res) => {
   console.log(req.params.id)
   var obj = { isActive: false }
-  changeStatus({ _id: req.params.id }, obj, res, (docs)=>{
+  changeStatus({ _id: req.params.id }, obj, res, (docs) => {
     res.redirect('/products/viewProducts')
   })
 }
@@ -401,90 +401,89 @@ exports.makeNotActive = (req, res) => {
 // makes product online
 exports.makeActive = (req, res) => {
   var obj = { isActive: true }
-  changeStatus({ _id: req.params.id }, obj, res, (docs)=>{
+  changeStatus({ _id: req.params.id }, obj, res, (docs) => {
     res.redirect('/products/viewProducts')
   })
 }
 
 // make product available
-exports.makeAvailable = (req, res)=>{
+exports.makeAvailable = (req, res) => {
   console.log(req.params.id)
   var obj = { availablity: true }
-  changeStatus({ _id: req.params.id }, obj, res, (docs)=>{
+  changeStatus({ _id: req.params.id }, obj, res, (docs) => {
     res.redirect('/products/viewProducts')
   })
 }
 
-exports.getSerials = (req, res)=>{
+exports.getSerials = (req, res) => {
   Serial.find()
-  .populate('pid')
-  .populate('lp')
-  .populate('invoice')
-  .exec((err, serials)=>{
-    
-    var count = 1;
-    serials.map( doc=>
-      {
-        if(doc.status == 'Delivered'){
+    .populate('pid')
+    .populate('lp')
+    .populate('invoice')
+    .exec((err, serials) => {
+
+      var count = 1;
+      serials.map(doc => {
+        if (doc.status == 'Delivered') {
           console.log(doc)
         }
         doc.count = count++
-      }  )
-    res.render('products/allSerials.ejs', { serials })
-  })
+      })
+      res.render('products/allSerials.ejs', { serials })
+    })
 }
 
 // show all the products and their quantity with low stock
-exports.viewLowQuantityProducts = async (req, res)=>{
- 
+exports.viewLowQuantityProducts = async (req, res) => {
+
   var products = await Product.find()
   var serials = []
   var count = 1;
-  for(var i = 0; i< products.length;i++){
-    var data = await Serial.find({ $and: [{pid: products[i]._id },{status:'In Stock' }]}).populate('pid').populate('lp').populate('invoice')
-    
-    if(data.length < 5){
+  for (var i = 0; i < products.length; i++) {
+    var data = await Serial.find({ $and: [{ pid: products[i]._id }, { status: 'In Stock' }] }).populate('pid').populate('lp').populate('invoice')
+
+    if (data.length < 5) {
       var obj = {
-        product:products[i],
+        product: products[i],
         quantity: data.length,
         count: count
       }
       serials.push(obj)
       count++
-    } 
+    }
   }
   res.render('products/LowInStock.ejs', { serials })
 }
 
 // make product not available
-exports.makeNotAvailable = (req, res)=>{
+exports.makeNotAvailable = (req, res) => {
   console.log(req.params.id)
   var obj = { availablity: false }
-  changeStatus({ _id: req.params.id }, obj, res, (docs)=>{
+  changeStatus({ _id: req.params.id }, obj, res, (docs) => {
     res.redirect('/products/viewProducts')
   });
 }
 
 // get inventory list by filter
 var get_all_inventory_list = (condition, sort_obj, cb) => {
-  Inventory.find(condition).sort(sort_obj).populate("product_id").populate("admin").exec((err, rs)=>{ cb(rs); });
+  Inventory.find(condition).sort(sort_obj).populate("product_id").populate("admin").exec((err, rs) => { cb(rs); });
 };
 
 // check availability
-exports.check_availablity= (req, res, next) => {
-  var pre_arr='';
-  get_all_inventory_list({product_id:req.params.model},{},(rs)=>{
-    if(rs !=null){
-      rs.map((inventory)=>{
-        var ser=inventory.serial;
-        for(var i=0;i<ser.length;i++){
+exports.check_availablity = (req, res, next) => {
+  var pre_arr = '';
+  get_all_inventory_list({ product_id: req.params.model }, {}, (rs) => {
+    if (rs != null) {
+      rs.map((inventory) => {
+        var ser = inventory.serial;
+        for (var i = 0; i < ser.length; i++) {
           pre_arr += ser[i]
-          if(i <ser.length-1){
-            pre_arr +=','
+          if (i < ser.length - 1) {
+            pre_arr += ','
           }
         }
       })
-      res.json({data:pre_arr});
+      res.json({ data: pre_arr });
     }
   })
 }
@@ -557,7 +556,7 @@ exports.check_availablity= (req, res, next) => {
 //     for( var i=0; i<quantity; i++ ){
 //       new_s.push((mongoose.Types.ObjectId()).toString())
 //     }
-    
+
 //     Inventory.update({ _id: req.params.lot },{ $addToSet: { serial: { $each: new_s }, original_serial: { $each: new_s }},$set:obj },{upsert:true}, (err, docs)=>{
 //       if(err){
 //         res.send(err)
@@ -573,7 +572,7 @@ exports.check_availablity= (req, res, next) => {
 //       for(var i=0; i<quantity; i++){
 //         new_s.push((rs[0].serial[i]).toString());
 //       }
-      
+
 //       Inventory.update({_id:req.params.lot},{ $pull: { serial: { $in: new_s }, original_serial: { $in: new_s }},$set:obj },{upsert:true}, (err, docs)=>{
 //         if(err) res.send(err)
 //         else res.redirect('/products/stockEditNoSerialPage/'+req.params.lot+'/'+req.params.pid)
@@ -819,7 +818,7 @@ exports.check_availablity= (req, res, next) => {
 
 // // returns setDiscount to the selected product
 // exports.addDiscount = (req, res, next)=>{
-  
+
 //   allFuctions.find({_id: req.params.id}, function(rs){
 
 //     var listPrice = rs[0].productPrice.listPrice;
