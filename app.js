@@ -60,7 +60,7 @@ require("./config/passport")(passport);
 // Map global promise
 mongoose.Promise = global.Promise;
 
-mongoose.connect( keys.database.mongoURI,  err => {
+mongoose.connect(keys.database.mongoURI, err => {
   if (!err) console.log("MongoDB connection Established, " + keys.database.mongoURI);
   else console.log("Error in DB connection :" + JSON.stringify(err, undefined, 2));
 });
@@ -91,13 +91,13 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "static")));
 
 // Express session middleware
-app.use( session({
-    secret: keys.session.secret,
-    resave: false,
-    saveUninitialized: false,
-    store: new mongoStore({ mongooseConnection: mongoose.connection }),
-    cookie: { maxAge: 180 * 60 * 1000 }
-  })
+app.use(session({
+  secret: keys.session.secret,
+  resave: false,
+  saveUninitialized: false,
+  store: new mongoStore({ mongooseConnection: mongoose.connection }),
+  cookie: { maxAge: 180 * 60 * 1000 }
+})
 );
 
 // Passport middleware
@@ -126,14 +126,14 @@ if (cluster.isMaster) {
   });
 
 } else {
-  
+
   console.log(`worker  ${process.pid} is running`);
 
   // Gloabl variables
-  app.use( async(req, res, next)=>{
+  app.use(async (req, res, next) => {
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");
-    res.locals.error = req.flash("error"); 
+    res.locals.error = req.flash("error");
     res.locals.errors = req.flash("errors");
     res.locals.user = req.user || null;
     res.locals.session = req.session;
@@ -148,20 +148,20 @@ if (cluster.isMaster) {
 
   // route for fetching image
   app.get("/image/:filename", (req, res) => {
-    try{
+    try {
       gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-        if(file != null ){
+        if (file != null) {
           const readstream = gfs.createReadStream(file.filename)
           readstream.pipe(res)
         }
       })
-    }catch(err){
+    } catch (err) {
       res.send(err)
     }
   });
 
 
-  app.get("/",async (req, res) => {
+  app.get("/", async (req, res) => {
 
     if (req.user) {
       res.redirect("/general/showDashboard")
@@ -172,14 +172,14 @@ if (cluster.isMaster) {
 
   // base routes
   app.use("/category", ensureAuthenticated, Editor, categoryRoutes)
-  app.use("/users",   usersRoutes);
+  app.use("/users", usersRoutes);
   app.use("/orders", ensureAuthenticated, Contributor, ordersRoutes)
   app.use("/invoice", ensureAuthenticated, Contributor, invoiceRoutes)
   app.use("/customers", ensureAuthenticated, Administrator, customerRoutes)
-  app.use("/products", Editor,ensureAuthenticated,  productsRoutes)
+  app.use("/products", Editor, ensureAuthenticated, productsRoutes)
   app.use("/purchase", ensureAuthenticated, Editor, purchaseRoutes)
-  app.use("/supplier", ensureAuthenticated, Editor,  supplierRoutes)
-  app.use("/general",  generalRoutes);
+  app.use("/supplier", ensureAuthenticated, Editor, supplierRoutes)
+  app.use("/general", generalRoutes);
   app.use("/forum", ensureAuthenticated, Contributor, forumRoutes)
   app.use("/promotions", ensureAuthenticated, Contributor, promotionsRoutes)
 
@@ -194,7 +194,7 @@ if (cluster.isMaster) {
 
   server.listen(process.env.PORT || 3000);
 
-  io.on('connection', function ( socket ) {
+  io.on('connection', function (socket) {
     socket.emit('news', { hello: 'world' });
     socket.on('my other event', function (data) {
     });
